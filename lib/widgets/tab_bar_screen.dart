@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lit_firebase_auth/lit_firebase_auth.dart';
+
+import '../screens/auth/auth.dart';
 import '../screens/homepage.dart';
 import '../screens/emergency_contacts_screen.dart';
 import '../screens/add_data_screen.dart';
@@ -32,7 +35,10 @@ class _TabBarScreenState extends State<TabBarScreen> {
               Icons.logout,
               color: Colors.orange,
             ),
-            onPressed: () {},
+            onPressed: () {
+              context.signOut();
+              Navigator.of(context).push(AuthScreen.route);
+            },
           ) //add method here
         ],
       ),
