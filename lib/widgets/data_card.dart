@@ -79,7 +79,7 @@ class DataCard extends StatelessWidget {
       width: 464,
       child: Card(
         margin: EdgeInsets.fromLTRB(16, 16, 16, 0),
-        elevation: 8,
+        elevation: 3,
         child: Container(
           padding: EdgeInsets.all(8),
           child: Column(
@@ -88,63 +88,63 @@ class DataCard extends StatelessWidget {
               isAdmin ? adminView(institutionName) : userView(institutionName),
 
               Container(
-                margin: EdgeInsets.all(8),
+                margin: EdgeInsets.symmetric(vertical: 8),
                 child: Row(
                   children: [
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Phone Number',
-                            style: labelStyle,
+                      child: TextButton(
+                        onPressed: () {
+                          UrlLauncher.launch("tel://" + phoneNumber);
+                        },
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Phone Number',
+                                style: labelStyle,
+                              ),
+                              Text(
+                                phoneNumber,
+                                style: linkStyle,
+                              ),
+                            ],
                           ),
-                          RichText(
-                            text: TextSpan(
-                              children: <TextSpan>[
-                                TextSpan(
-                                    text: phoneNumber,
-                                    style: linkStyle,
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () {
-                                        UrlLauncher.launch(
-                                            "tel://" + phoneNumber);
-                                      }),
-                              ],
-                            ),
-                          )
-                        ],
+                        ),
                       ),
                     ),
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Alternate Number',
-                            style: labelStyle,
+                      child: TextButton(
+                        onPressed: () {
+                          if (alternateNumber == "" ||
+                              alternateNumber == null ||
+                              alternateNumber == 'Null') {
+                            return;
+                          } else {
+                            UrlLauncher.launch("tel://" + alternateNumber);
+                          }
+                        },
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Alternate Number',
+                                style: labelStyle,
+                              ),
+                              alternateNumber == "" ||
+                                      alternateNumber == null ||
+                                      alternateNumber == 'Null'
+                                  ? Text('not given')
+                                  : Text(
+                                      alternateNumber,
+                                      style: linkStyle,
+                                    ),
+                            ],
                           ),
-                          alternateNumber == ''
-                              ? Text('not given')
-                              : RichText(
-                                  text: TextSpan(
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: alternateNumber,
-                                        style: (alternateNumber != "" ||
-                                                alternateNumber != null)
-                                            ? linkStyle
-                                            : infoStyle,
-                                        recognizer: TapGestureRecognizer()
-                                          ..onTap = () {
-                                            UrlLauncher.launch(
-                                                "tel://" + alternateNumber);
-                                          },
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                        ],
+                        ),
                       ),
                     ),
                   ],

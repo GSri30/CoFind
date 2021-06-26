@@ -1,8 +1,13 @@
 class EmergencyContact {
-  final String name;
-  final String number;
+  String name;
+  String number;
 
   EmergencyContact({this.name, this.number});
+
+  EmergencyContact.dynamic(dynamic data) {
+    this.name = data['name'];
+    this.number = data['number'];
+  }
 }
 
 List<EmergencyContact> DUMMY_DATA = [

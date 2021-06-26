@@ -5,6 +5,7 @@ import 'package:cofind/models/resource.dart';
 final DatabaseReference firebase = FirebaseDatabase.instance.reference();
 final DatabaseReference DBrootReference = firebase.reference();
 final DatabaseReference Resources = DBrootReference.child('Resources');
+final DatabaseReference Requests = DBrootReference.child('Reqests');
 
 class ResourceCRUD {
   static String create(Resource Resource) {
@@ -72,15 +73,15 @@ class ResourceCRUD {
     final DatabaseReference isVerified =
         Resources.child(resourceID).child('isVerified');
     bool ok = false;
-    isVerified.once().then((value) {
-      ok = (value == "true");
+    await isVerified.once().then((is_verified) {
+      ok = (is_verified.value == "true");
     });
     return ok;
   }
 
-  static Future<void> add_servicenote(String resourceID, String note) async {
+  static void add_servicenote(String resourceID, String note) {
     final DatabaseReference resource = Resources.child(resourceID);
-    await resource.update({'ServiceNote': note});
+    resource.update({'ServiceNote': note});
   }
 
   static List<Resource> get(snapshot) {
@@ -94,5 +95,23 @@ class ResourceCRUD {
     }
 
     return new List.from(result.reversed);
+  }
+
+  static String request(Resource Resource) {
+    final DatabaseReference reqResource = Requests.push();
+
+    reqResource.set({
+      'UserID': Resource.UserID,
+      'ResourceType': RESOURCE_TYPE_CONVERTER[Resource.ResourceType],
+      'InstitutionName': Resource.InstitutionName,
+      'PhoneNumber': Resource.PhoneNumber,
+      'AlternateNumber': Resource.AlternateNumber,
+      'Location': Resource.Location,
+      'City': Resource.City,
+      'ServiceNote': Resource.ServiceNote,
+      'isVerified': Resource.isVerified
+    });
+
+    return reqResource.key;
   }
 }

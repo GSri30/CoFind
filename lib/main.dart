@@ -9,6 +9,7 @@ import 'config/palette.dart';
 import 'widgets/tab_bar_screen.dart';
 import './screens/add_data_screen.dart';
 import './screens/display_data_screen.dart';
+import './screens/profile_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
         routes: {
           AddDataScreen.routeName: (context) => AddDataScreen(),
           DisplayDataScreen.routeName: (context) => DisplayDataScreen(),
+          ProfileScreen.routeName: (context) => ProfileScreen(),
         },
       ),
     );

@@ -23,7 +23,7 @@ class _AddDataScreenState extends State<AddDataScreen> {
 
   String cityValue;
 
-  Future<void> submitData(BuildContext context) async {
+  void submitData(BuildContext context) {
     String institutionName = institutionNameController.text;
     String phoneNumber = phoneNumberController.text;
     String alternateNumber = alternateNumberController.text;
@@ -42,7 +42,7 @@ class _AddDataScreenState extends State<AddDataScreen> {
       alternateNumber = "";
     }
 
-    final current_user = await UserCRUD.get(context);
+    final current_user = UserCRUD.get(context);
 
     List<String> Acknowledgements = [];
     //(?)

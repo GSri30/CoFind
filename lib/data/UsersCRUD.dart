@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:lit_firebase_auth/lit_firebase_auth.dart';
 import 'package:cofind/models/user.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 final DatabaseReference firebase = FirebaseDatabase.instance.reference();
 final DatabaseReference DBrootReference = firebase.reference();
 final DatabaseReference Users = DBrootReference.child('Users');
 
 class UserCRUD {
-  static Future<user> get(BuildContext context) async {
-    final ctxuser = context.getSignedInUser();
+  static user get(BuildContext context) {
+    User ctxuser = context.getSignedInUser();
     user result;
 
     ctxuser.when((ctxuser) {
@@ -41,13 +42,10 @@ class UserCRUD {
 
   static void create(user user) {
     final DatabaseReference specificUser = Users.child(user.uid);
-    final DatabaseReference specificUserResources =
-        specificUser.child("Resources");
 
     specificUser.set({
-      'userName': user.name,
+      'userName': user.name != null ? user.name : "User",
       'userEmail': user.emailID,
-      'hasEmailVerified': user.hasVerifiedEmail.toString(),
       'isAdmin': 'false',
     });
   }
@@ -62,9 +60,51 @@ class UserCRUD {
   static Future<bool> is_admin(String uid) async {
     final DatabaseReference specificUser = Users.child(uid);
     bool ok = false;
-    specificUser.once().then((value) {
-      if (value != null) ok = (value == "true");
+    await specificUser.once().then((user) {
+      if (user != null) ok = (user.value['isAdmin'] == "true");
     });
     return ok;
+  }
+
+  static void update(BuildContext context,
+      {String new_display_name = null, String new_email = null}) {
+    context.getSignedInUser().when((user) {
+      if (new_email != null) {
+        user.updateEmail(new_email);
+      }
+      if (new_display_name != null) {
+        dynamic updatedInfo = new UserUpdateInfo();
+
+        updatedInfo.displayName = new_display_name;
+        user.updateProfile(updatedInfo);
+      }
+
+      user.reload();
+    }, empty: () {}, initializing: () {});
+  }
+
+  static void update_index(user user) async {
+    final DatabaseReference specificUser = Users.child(user.uid);
+
+    specificUser.update({'userName': user.name, 'userEmail': user.emailID});
+  }
+
+  static void make_admin(String uid) {
+    final DatabaseReference specificUser = Users.child(uid);
+
+    specificUser.update({'isAdmin': 'true'});
+  }
+
+  static List<user> get_users(snapshot) {
+    List<user> result = [];
+
+    if (snapshot.value != null) {
+      Map<dynamic, dynamic> users = snapshot.value;
+      users.forEach((userID, usr) {
+        result.add(new user.dynamic(userID, usr));
+      });
+    }
+
+    return new List.from(result.reversed);
   }
 }
