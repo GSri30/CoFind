@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../widgets/icon_card.dart';
 
 class HomePage extends StatelessWidget {
@@ -17,26 +18,28 @@ class HomePage extends StatelessWidget {
               child: FittedBox(
                 child: Row(children: [
                   iconCard(
-                    label: 'Oxygen',
+                    label: 'OXYGEN',
                     icon: Icons.grass,
                     w: 100,
                     h: 100,
                   ),
                   iconCard(
-                      label: 'Ambulance',
-                      icon: Icons.car_rental,
-                      w: 100,
-                      h: 100),
+                    label: 'AMBULANCE',
+                    icon: FontAwesomeIcons.ambulance,
+                    w: 100,
+                    h: 100,
+                  ),
                   iconCard(
-                      label: 'Hospital',
+                      label: 'BLOOD',
                       icon: Icons.local_hospital,
                       w: 100,
                       h: 100),
                   iconCard(
-                      label: 'Blood',
-                      icon: Icons.bakery_dining,
-                      w: 100,
-                      h: 100),
+                    label: 'HOSPITAL',
+                    icon: FontAwesomeIcons.hospital,
+                    w: 100,
+                    h: 100,
+                  ),
                 ]),
               ),
             ),
@@ -45,9 +48,16 @@ class HomePage extends StatelessWidget {
                 child: Row(
                   children: [
                     iconCard(
-                        label: 'Oxygen', icon: Icons.grass, w: 216, h: 150),
+                        label: 'VACCINATION',
+                        icon: FontAwesomeIcons.syringe,
+                        w: 216,
+                        h: 150),
                     iconCard(
-                        label: 'Oxygen', icon: Icons.grass, w: 216, h: 150),
+                      label: 'TESTING',
+                      icon: FontAwesomeIcons.vial,
+                      w: 216,
+                      h: 150,
+                    ),
                   ],
                 ),
               ),
@@ -57,9 +67,17 @@ class HomePage extends StatelessWidget {
                 child: Row(
                   children: [
                     iconCard(
-                        label: 'Oxygen', icon: Icons.grass, w: 216, h: 150),
+                      label: 'DOCTOR',
+                      icon: FontAwesomeIcons.userMd,
+                      w: 216,
+                      h: 150,
+                    ),
                     iconCard(
-                        label: 'Oxygen', icon: Icons.grass, w: 216, h: 150),
+                      label: 'AWARENESS',
+                      icon: FontAwesomeIcons.newspaper,
+                      w: 216,
+                      h: 150,
+                    ),
                   ],
                 ),
               ),
@@ -68,17 +86,25 @@ class HomePage extends StatelessWidget {
               child: FittedBox(
                 child: Row(children: [
                   iconCard(
-                      label: 'Medication', icon: Icons.grass, w: 100, h: 100),
+                    label: 'MEDICATIONS',
+                    icon: FontAwesomeIcons.tablets,
+                    w: 100,
+                    h: 100,
+                  ),
                   iconCard(
-                      label: 'Food', icon: Icons.car_rental, w: 100, h: 100),
+                    label: 'FOOD',
+                    icon: FontAwesomeIcons.utensilSpoon,
+                    w: 100,
+                    h: 100,
+                  ),
                   iconCard(
-                      label: 'Quarantine',
-                      icon: Icons.local_hospital,
+                      label: 'QUARANTINE',
+                      icon: FontAwesomeIcons.houseUser,
                       w: 100,
                       h: 100),
                   iconCard(
-                      label: 'Funeral',
-                      icon: Icons.bakery_dining,
+                      label: 'FUNERAL',
+                      icon: FontAwesomeIcons.skullCrossbones,
                       w: 100,
                       h: 100),
                 ]),
