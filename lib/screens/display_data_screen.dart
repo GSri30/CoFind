@@ -53,16 +53,20 @@ class _DisplayDataScreenState extends State<DisplayDataScreen> {
       }
 
       return Center(
-          child: ListView.builder(
-              itemCount: filtered_data.length,
-              itemBuilder: (BuildContext context, int index) {
-                return DataCard(
-                    institutionName: filtered_data[index].InstitutionName,
-                    phoneNumber: filtered_data[index].PhoneNumber,
-                    alternateNumber: filtered_data[index].AlternateNumber,
-                    location: filtered_data[index].Location,
-                    serviceNote: filtered_data[index].ServiceNote);
-              }));
+        child: ListView.builder(
+          itemCount: filtered_data.length,
+          itemBuilder: (BuildContext context, int index) {
+            return DataCard(
+              institutionName: filtered_data[index].InstitutionName,
+              phoneNumber: filtered_data[index].PhoneNumber,
+              alternateNumber: filtered_data[index].AlternateNumber,
+              location: filtered_data[index].Location,
+              serviceNote: filtered_data[index].ServiceNote,
+              city: filtered_data[index].City,
+            );
+          },
+        ),
+      );
     }
   }
 }

@@ -14,6 +14,7 @@ class DataCard extends StatelessWidget {
   final String alternateNumber;
   final String location;
   final String serviceNote;
+  final String city;
 
   final isAdmin = false;
 
@@ -69,6 +70,7 @@ class DataCard extends StatelessWidget {
     this.alternateNumber,
     this.location,
     this.serviceNote,
+    this.city,
   });
 
   @override
@@ -77,7 +79,7 @@ class DataCard extends StatelessWidget {
       width: 464,
       child: Card(
         margin: EdgeInsets.fromLTRB(16, 16, 16, 0),
-        elevation: 3,
+        elevation: 8,
         child: Container(
           padding: EdgeInsets.all(8),
           child: Column(
@@ -86,76 +88,116 @@ class DataCard extends StatelessWidget {
               isAdmin ? adminView(institutionName) : userView(institutionName),
 
               Container(
-                margin: EdgeInsets.symmetric(vertical: 8),
+                margin: EdgeInsets.all(8),
                 child: Row(
                   children: [
                     Expanded(
-                      child: TextButton(
-                        onPressed: () {
-                          UrlLauncher.launch("tel://" + phoneNumber);
-                        },
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Phone Number',
-                                style: labelStyle,
-                              ),
-                              Text(
-                                phoneNumber,
-                                style: linkStyle,
-                              ),
-                            ],
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Phone Number',
+                            style: labelStyle,
                           ),
-                        ),
+                          RichText(
+                            text: TextSpan(
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: phoneNumber,
+                                    style: linkStyle,
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        UrlLauncher.launch(
+                                            "tel://" + phoneNumber);
+                                      }),
+                              ],
+                            ),
+                          )
+                        ],
                       ),
                     ),
                     Expanded(
-                      child: TextButton(
-                        onPressed: () {
-                          if (alternateNumber != 'Null')
-                            UrlLauncher.launch("tel://" + alternateNumber);
-                        },
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Alternate Number',
-                                style: labelStyle,
-                              ),
-                              alternateNumber == 'Null'
-                                  ? Text('not given')
-                                  : Text(
-                                      alternateNumber,
-                                      style: linkStyle,
-                                    ),
-                            ],
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Alternate Number',
+                            style: labelStyle,
                           ),
-                        ),
+                          alternateNumber == ''
+                              ? Text('not given')
+                              : RichText(
+                                  text: TextSpan(
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: alternateNumber,
+                                        style: (alternateNumber != "" ||
+                                                alternateNumber != null)
+                                            ? linkStyle
+                                            : infoStyle,
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () {
+                                            UrlLauncher.launch(
+                                                "tel://" + alternateNumber);
+                                          },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                        ],
                       ),
                     ),
                   ],
                 ),
               ),
 
-              // Location
               Container(
                 margin: EdgeInsets.all(8),
-                width: double.infinity,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
                   children: [
-                    Text(
-                      'Location',
-                      style: labelStyle,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'City',
+                            style: labelStyle,
+                          ),
+                          RichText(
+                            text: TextSpan(
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: city,
+                                  style: infoStyle,
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                    Text(
-                      location,
-                      style: infoStyle,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Locality',
+                            style: labelStyle,
+                          ),
+                          alternateNumber == ''
+                              ? Text('not given')
+                              : RichText(
+                                  text: TextSpan(
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: location,
+                                        style: infoStyle,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                        ],
+                      ),
                     ),
                   ],
                 ),

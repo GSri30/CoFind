@@ -5,8 +5,14 @@ import 'package:cofind/data/UsersCRUD.dart';
 import 'package:cofind/data/ResourcesCRUD.dart';
 import 'package:cofind/data/Utils.dart';
 
-class AddDataScreen extends StatelessWidget {
+class AddDataScreen extends StatefulWidget {
   static const routeName = '/add-data';
+
+  @override
+  _AddDataScreenState createState() => _AddDataScreenState();
+}
+
+class _AddDataScreenState extends State<AddDataScreen> {
   final institutionNameController = TextEditingController();
 
   final phoneNumberController = TextEditingController();
@@ -15,11 +21,14 @@ class AddDataScreen extends StatelessWidget {
 
   final locationController = TextEditingController();
 
+  String cityValue;
+
   Future<void> submitData(BuildContext context) async {
     String institutionName = institutionNameController.text;
     String phoneNumber = phoneNumberController.text;
     String alternateNumber = alternateNumberController.text;
     String location = locationController.text;
+    String city = cityValue;
 
     if (!Utils.has_resources(resourceFilter) ||
         institutionName.isEmpty ||
@@ -37,20 +46,23 @@ class AddDataScreen extends StatelessWidget {
 
     List<String> Acknowledgements = [];
     //(?)
-    final City = "Bangalore";
+    //final City = "Bangalore";
 
     resourceFilter.forEach((resource_type, is_available) {
       if (is_available) {
-        String acknowledgement = ResourceCRUD.create(Resource(
+        String acknowledgement = ResourceCRUD.create(
+          Resource(
             UserID: current_user.uid,
             ResourceType: resource_type,
             InstitutionName: institutionName,
             PhoneNumber: phoneNumber,
             AlternateNumber: alternateNumber,
             Location: location,
-            City: City,
+            City: city,
             ServiceNote: "",
-            isVerified: "false"));
+            isVerified: "false",
+          ),
+        );
 
         Acknowledgements.add(acknowledgement);
       }
@@ -78,6 +90,15 @@ class AddDataScreen extends StatelessWidget {
     'Quarantine': false,
     'Funeral': false,
   };
+
+  final cityList = [
+    'Bengaluru',
+    'Hyderabad',
+    'Delhi',
+    'Mumbai',
+    'Chennai',
+    'Kolkata',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -113,6 +134,7 @@ class AddDataScreen extends StatelessWidget {
             TextField(
               decoration: InputDecoration(labelText: 'Institution Name'),
               controller: institutionNameController,
+              keyboardType: TextInputType.name,
             ),
             SizedBox(
               height: 16,
@@ -135,6 +157,26 @@ class AddDataScreen extends StatelessWidget {
             SizedBox(
               height: 16,
             ),
+            //City
+            DropdownButton(
+              value: cityValue,
+              items: cityList.map(
+                (cityValue) {
+                  return DropdownMenuItem(
+                    child: Text(cityValue),
+                    value: cityValue,
+                  );
+                },
+              ).toList(),
+              isExpanded: true,
+              onChanged: (newValue) {
+                setState(() {
+                  cityValue = newValue;
+                });
+              },
+              hint: Text('City'),
+            ),
+
             // Location
             TextField(
               decoration: InputDecoration(labelText: 'Location'),
