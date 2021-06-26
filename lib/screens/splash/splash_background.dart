@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/animation.dart';
 
-class BackgroundPainter extends CustomPainter {
-  BackgroundPainter({
+class SplashBackgroundPainter extends CustomPainter {
+  SplashBackgroundPainter({
     Animation<double> animation,
   })  : bluePaint = Paint()
           ..color = Palette.lightBlue
@@ -89,12 +89,13 @@ class BackgroundPainter extends CustomPainter {
 
   void paintBlue(Size size, Canvas canvas) {
     final path = Path();
-    path.moveTo(size.width, size.height / 2);
-    path.lineTo(size.width, 0);
+    path.moveTo(size.width, size.height);
     path.lineTo(0, 0);
+    path.lineTo(0, size.height);
+
     path.lineTo(
       0,
-      lerpDouble(0, size.height, blueAnim.value),
+      lerpDouble(size.width, 0, blueAnim.value),
     );
 
     _addPointsToPath(path, [
@@ -111,6 +112,7 @@ class BackgroundPainter extends CustomPainter {
         lerpDouble(size.height / 2, size.height * 3 / 4, liquidAnim.value),
       ),
     ]);
+
     canvas.drawPath(path, bluePaint);
   }
 

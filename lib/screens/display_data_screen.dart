@@ -14,7 +14,7 @@ class DisplayDataScreen extends StatelessWidget {
           title: Text(route),
         ),
         body: Center(
-          child: Column(
+          child: ListView(
             children: [
               DataCard(
                 institutionName: DUMMY_DATA[0].institutionName,
@@ -22,7 +22,28 @@ class DisplayDataScreen extends StatelessWidget {
                 alternateNumber: DUMMY_DATA[0].alternateNumber,
                 location: DUMMY_DATA[0].location,
                 serviceNote: DUMMY_DATA[0].serviceNote,
-              )
+              ),
+              DataCard(
+                institutionName: DUMMY_DATA[0].institutionName,
+                phoneNumber: DUMMY_DATA[0].phoneNumber,
+                alternateNumber: DUMMY_DATA[0].alternateNumber,
+                location: DUMMY_DATA[0].location,
+                serviceNote: DUMMY_DATA[0].serviceNote,
+              ),
+              DataCard(
+                institutionName: DUMMY_DATA[0].institutionName,
+                phoneNumber: DUMMY_DATA[0].phoneNumber,
+                alternateNumber: DUMMY_DATA[0].alternateNumber,
+                location: DUMMY_DATA[0].location,
+                serviceNote: DUMMY_DATA[0].serviceNote,
+              ),
+              DataCard(
+                institutionName: DUMMY_DATA[0].institutionName,
+                phoneNumber: DUMMY_DATA[0].phoneNumber,
+                alternateNumber: DUMMY_DATA[0].alternateNumber,
+                location: DUMMY_DATA[0].location,
+                serviceNote: DUMMY_DATA[0].serviceNote,
+              ),
             ],
           ),
         ));

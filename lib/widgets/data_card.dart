@@ -15,6 +15,54 @@ class DataCard extends StatelessWidget {
   final String location;
   final String serviceNote;
 
+  final isAdmin = false;
+
+  Widget adminView(String institutionName) {
+    return Container(
+      margin: EdgeInsets.all(8),
+      width: double.infinity,
+      child: Row(children: [
+        Expanded(
+          child: Text(
+            institutionName,
+            textAlign: TextAlign.left,
+            style: heading,
+          ),
+        ),
+        SizedBox(
+          width: 16,
+        ),
+        IconButton(
+            icon: Icon(
+              Icons.done,
+              color: Colors.lightGreen,
+            ),
+            onPressed: () {}),
+        SizedBox(
+          width: 24,
+        ),
+        IconButton(
+            icon: Icon(
+              Icons.close,
+              color: Colors.red,
+            ),
+            onPressed: () {}),
+      ]),
+    );
+  }
+
+  Widget userView(String institutionName) {
+    return Container(
+      margin: EdgeInsets.all(8),
+      width: double.infinity,
+      child: Text(
+        institutionName,
+        textAlign: TextAlign.left,
+        style: heading,
+      ),
+    );
+  }
+
   DataCard({
     this.institutionName,
     this.phoneNumber,
@@ -35,15 +83,7 @@ class DataCard extends StatelessWidget {
           child: Column(
             children: [
               // Institution Name and call button
-              Container(
-                margin: EdgeInsets.all(8),
-                width: double.infinity,
-                child: Text(
-                  institutionName,
-                  textAlign: TextAlign.left,
-                  style: heading,
-                ),
-              ),
+              isAdmin ? adminView(institutionName) : userView(institutionName),
 
               Container(
                 margin: EdgeInsets.all(8),

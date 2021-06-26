@@ -16,13 +16,25 @@ class _TabBarScreenState extends State<TabBarScreen> {
   int _pageNum = 0;
 
   PageController _page = PageController(initialPage: 0);
-
+  final bool isAdmin = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // App Bar
       appBar: AppBar(
         title: _pageNum == 0 ? Text('Home') : Text('Emergency Contacts'),
+        actions: <Widget>[
+          if (isAdmin)
+            IconButton(
+                icon: Icon(Icons.rule), onPressed: () {}), //add method here
+          IconButton(
+            icon: Icon(
+              Icons.logout,
+              color: Colors.orange,
+            ),
+            onPressed: () {},
+          ) //add method here
+        ],
       ),
 
       // Bottom App Bar

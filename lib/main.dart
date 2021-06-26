@@ -1,7 +1,7 @@
 // read to use main.dart
 import 'package:cofind/screens/auth/auth.dart';
 import 'package:cofind/screens/homepage.dart';
-import 'package:cofind/screens/splash.dart';
+import 'package:cofind/screens/splash/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lit_firebase_auth/lit_firebase_auth.dart';

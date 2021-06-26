@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../widgets/icon_card.dart';
 
 class HomePage extends StatelessWidget {
@@ -23,17 +24,22 @@ class HomePage extends StatelessWidget {
                     h: 100,
                   ),
                   iconCard(
-                      label: 'AMBULANCE', icon: Icons.help, w: 100, h: 100),
+                    label: 'AMBULANCE',
+                    icon: FontAwesomeIcons.ambulance,
+                    w: 100,
+                    h: 100,
+                  ),
                   iconCard(
                       label: 'BLOOD',
                       icon: Icons.local_hospital,
                       w: 100,
                       h: 100),
                   iconCard(
-                      label: 'HOSPITAL',
-                      icon: Icons.bakery_dining,
-                      w: 100,
-                      h: 100),
+                    label: 'HOSPITAL',
+                    icon: FontAwesomeIcons.hospital,
+                    w: 100,
+                    h: 100,
+                  ),
                 ]),
               ),
             ),
@@ -43,11 +49,15 @@ class HomePage extends StatelessWidget {
                   children: [
                     iconCard(
                         label: 'VACCINATION',
-                        icon: Icons.grass,
+                        icon: FontAwesomeIcons.syringe,
                         w: 216,
                         h: 150),
                     iconCard(
-                        label: 'TESTING', icon: Icons.grass, w: 216, h: 150),
+                      label: 'TESTING',
+                      icon: FontAwesomeIcons.vial,
+                      w: 216,
+                      h: 150,
+                    ),
                   ],
                 ),
               ),
@@ -57,9 +67,17 @@ class HomePage extends StatelessWidget {
                 child: Row(
                   children: [
                     iconCard(
-                        label: 'DOCTOR', icon: Icons.grass, w: 216, h: 150),
+                      label: 'DOCTOR',
+                      icon: FontAwesomeIcons.userMd,
+                      w: 216,
+                      h: 150,
+                    ),
                     iconCard(
-                        label: 'AWARENESS', icon: Icons.grass, w: 216, h: 150),
+                      label: 'AWARENESS',
+                      icon: FontAwesomeIcons.newspaper,
+                      w: 216,
+                      h: 150,
+                    ),
                   ],
                 ),
               ),
@@ -68,17 +86,25 @@ class HomePage extends StatelessWidget {
               child: FittedBox(
                 child: Row(children: [
                   iconCard(
-                      label: 'MEDICATIONS', icon: Icons.grass, w: 100, h: 100),
+                    label: 'MEDICATIONS',
+                    icon: FontAwesomeIcons.tablets,
+                    w: 100,
+                    h: 100,
+                  ),
                   iconCard(
-                      label: 'FOOD', icon: Icons.car_rental, w: 100, h: 100),
+                    label: 'FOOD',
+                    icon: FontAwesomeIcons.utensilSpoon,
+                    w: 100,
+                    h: 100,
+                  ),
                   iconCard(
                       label: 'QUARANTINE',
-                      icon: Icons.local_hospital,
+                      icon: FontAwesomeIcons.houseUser,
                       w: 100,
                       h: 100),
                   iconCard(
                       label: 'FUNERAL',
-                      icon: Icons.bakery_dining,
+                      icon: FontAwesomeIcons.skullCrossbones,
                       w: 100,
                       h: 100),
                 ]),
