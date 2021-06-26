@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/emergency_contact.dart';
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 class EmergencyContactScreen extends StatelessWidget {
   @override
@@ -27,13 +28,19 @@ class EmergencyContactCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: ListTile(
-        title: Text(name),
-        subtitle: Text(number),
-        trailing: IconButton(
-          icon: Icon(Icons.call),
-          onPressed: () {},
+    return Container(
+      width: 464,
+      child: Card(
+        child: ListTile(
+          title: Text(name),
+          subtitle: Text(number),
+          trailing: IconButton(
+            icon: Icon(Icons.call),
+            onPressed: () {
+              UrlLauncher.launch("tel://" + number);
+              print('calling');
+            },
+          ),
         ),
       ),
     );

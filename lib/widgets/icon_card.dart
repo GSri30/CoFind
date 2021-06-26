@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../screens/display_data_screen.dart';
 
 class iconCard extends StatelessWidget {
   final String label;
@@ -36,7 +37,10 @@ class iconCard extends StatelessWidget {
         horizontal: 8,
       ),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.of(context)
+              .pushNamed(DisplayDataScreen.routeName, arguments: label);
+        },
         borderRadius: BorderRadius.circular(15),
         splashColor: Theme.of(context).primaryColor,
         child: Container(

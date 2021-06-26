@@ -1,73 +1,77 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:intl/intl.dart';
+import '../widgets/resource_filter_chip.dart';
 
-class AddDataScreen extends StatefulWidget {
+class AddDataScreen extends StatelessWidget {
   static const routeName = '/add-data';
+  final institutionNameController = TextEditingController();
 
-  @override
-  _AddDataScreenState createState() => _AddDataScreenState();
-}
+  final phoneNumberController = TextEditingController();
 
-class _AddDataScreenState extends State<AddDataScreen> {
-  final InstitutionNameController = TextEditingController();
+  final alternateNumberController = TextEditingController();
 
-  final PhoneNumberController = TextEditingController();
-
-  final AlternateNumberController = TextEditingController();
-
-  final LocationController = TextEditingController();
+  final locationController = TextEditingController();
 
   void submitData(BuildContext context) {
-    String InstitutionName = InstitutionNameController.text;
-    String PhoneNumber = InstitutionNameController.text;
-    String AlternateNumber = AlternateNumberController.text;
-    String Location = LocationController.text;
+    String institutionName = institutionNameController.text;
+    String phoneNumber = phoneNumberController.text;
+    String alternateNumber = alternateNumberController.text;
+    String location = locationController.text;
 
-    if (InstitutionName.isEmpty || PhoneNumber.isEmpty || Location.isEmpty) {
+    if (institutionName.isEmpty || phoneNumber.isEmpty || location.isEmpty) {
       return;
     }
+
+    print(resourceFilter);
 
     Navigator.of(context).pop();
   }
 
-  var _selected = false;
+  final Map<String, bool> resourceFilter = {
+    'Oxygen': false,
+    'Ambulance': false,
+    'Blood': false,
+    'Hospital': false,
+    'Doctor': false,
+    'Medication': false,
+    'Food': false,
+    'Quarantine': false,
+    'Funeral': false,
+  };
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text('Add New Resources'),
+      ),
       body: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.all(16),
           child: Column(children: [
             // Resources
 
-            FilterChip(
-                selected: _selected,
-                label: Text('Oxygen'),
-                selectedColor: Colors.lightGreen,
-                onSelected: (bool selected) {
-                  setState(() {
-                    _selected = !_selected;
-                  });
-                }),
-
-            FilterChip(
-                selected: _selected,
-                label: Text('Beds'),
-                selectedColor: Colors.lightGreen,
-                onSelected: (bool selected) {
-                  setState(() {
-                    _selected = !_selected;
-                  });
-                }),
+            Container(
+              width: double.infinity,
+              child: Text(
+                'Resources',
+                textAlign: TextAlign.left,
+                style: TextStyle(fontSize: 18),
+              ),
+              margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            ResourceFilterChip(resourceFilter),
+            SizedBox(
+              height: 16,
+            ),
 
             // Instituion name
 
             TextField(
               decoration: InputDecoration(labelText: 'Institution Name'),
-              controller: InstitutionNameController,
+              controller: institutionNameController,
             ),
             SizedBox(
               height: 16,
@@ -75,7 +79,7 @@ class _AddDataScreenState extends State<AddDataScreen> {
             // Phone Number
             TextField(
               decoration: InputDecoration(labelText: 'Phone Number'),
-              controller: PhoneNumberController,
+              controller: phoneNumberController,
               keyboardType: TextInputType.phone,
             ),
             SizedBox(
@@ -84,7 +88,7 @@ class _AddDataScreenState extends State<AddDataScreen> {
             // Alternate Number
             TextField(
               decoration: InputDecoration(labelText: 'Alternate Number'),
-              controller: AlternateNumberController,
+              controller: alternateNumberController,
               keyboardType: TextInputType.phone,
             ),
             SizedBox(
@@ -93,7 +97,7 @@ class _AddDataScreenState extends State<AddDataScreen> {
             // Location
             TextField(
               decoration: InputDecoration(labelText: 'Location'),
-              controller: LocationController,
+              controller: locationController,
             ),
             SizedBox(
               height: 16,

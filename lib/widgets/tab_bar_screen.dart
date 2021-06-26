@@ -6,6 +6,10 @@ import '../screens/add_data_screen.dart';
 class TabBarScreen extends StatefulWidget {
   @override
   _TabBarScreenState createState() => _TabBarScreenState();
+
+  static MaterialPageRoute get route => MaterialPageRoute(
+        builder: (context) => TabBarScreen(),
+      );
 }
 
 class _TabBarScreenState extends State<TabBarScreen> {

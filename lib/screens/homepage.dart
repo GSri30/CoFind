@@ -17,23 +17,20 @@ class HomePage extends StatelessWidget {
               child: FittedBox(
                 child: Row(children: [
                   iconCard(
-                    label: 'Oxygen',
+                    label: 'OXYGEN',
                     icon: Icons.grass,
                     w: 100,
                     h: 100,
                   ),
                   iconCard(
-                      label: 'Ambulance',
-                      icon: Icons.car_rental,
-                      w: 100,
-                      h: 100),
+                      label: 'AMBULANCE', icon: Icons.help, w: 100, h: 100),
                   iconCard(
-                      label: 'Hospital',
+                      label: 'BLOOD',
                       icon: Icons.local_hospital,
                       w: 100,
                       h: 100),
                   iconCard(
-                      label: 'Blood',
+                      label: 'HOSPITAL',
                       icon: Icons.bakery_dining,
                       w: 100,
                       h: 100),
@@ -45,9 +42,12 @@ class HomePage extends StatelessWidget {
                 child: Row(
                   children: [
                     iconCard(
-                        label: 'Oxygen', icon: Icons.grass, w: 216, h: 150),
+                        label: 'VACCINATION',
+                        icon: Icons.grass,
+                        w: 216,
+                        h: 150),
                     iconCard(
-                        label: 'Oxygen', icon: Icons.grass, w: 216, h: 150),
+                        label: 'TESTING', icon: Icons.grass, w: 216, h: 150),
                   ],
                 ),
               ),
@@ -57,9 +57,9 @@ class HomePage extends StatelessWidget {
                 child: Row(
                   children: [
                     iconCard(
-                        label: 'Oxygen', icon: Icons.grass, w: 216, h: 150),
+                        label: 'DOCTOR', icon: Icons.grass, w: 216, h: 150),
                     iconCard(
-                        label: 'Oxygen', icon: Icons.grass, w: 216, h: 150),
+                        label: 'AWARENESS', icon: Icons.grass, w: 216, h: 150),
                   ],
                 ),
               ),
@@ -68,16 +68,16 @@ class HomePage extends StatelessWidget {
               child: FittedBox(
                 child: Row(children: [
                   iconCard(
-                      label: 'Medication', icon: Icons.grass, w: 100, h: 100),
+                      label: 'MEDICATIONS', icon: Icons.grass, w: 100, h: 100),
                   iconCard(
-                      label: 'Food', icon: Icons.car_rental, w: 100, h: 100),
+                      label: 'FOOD', icon: Icons.car_rental, w: 100, h: 100),
                   iconCard(
-                      label: 'Quarantine',
+                      label: 'QUARANTINE',
                       icon: Icons.local_hospital,
                       w: 100,
                       h: 100),
                   iconCard(
-                      label: 'Funeral',
+                      label: 'FUNERAL',
                       icon: Icons.bakery_dining,
                       w: 100,
                       h: 100),
