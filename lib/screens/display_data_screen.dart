@@ -42,8 +42,14 @@ class _DisplayDataScreenState extends State<DisplayDataScreen> {
       final filtered_data = ResourceCRUD.read(snapshot.data);
 
       if (filtered_data.length == 0) {
-        return Text(
-            "Sorry, no verified '${route}' resources are currently available. Please come back again!");
+        return Container(
+          margin: EdgeInsets.all(16),
+          child: Text(
+            "Sorry, no verified '${route}' resources are currently available. Please come back again!",
+            style: TextStyle(fontSize: 16),
+            textAlign: TextAlign.center,
+          ),
+        );
       }
 
       return Center(

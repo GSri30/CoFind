@@ -66,9 +66,9 @@ class Register extends StatelessWidget {
                         onSignInPressed?.call();
                       },
                       child: const Text(
-                        'Sign in',
+                        'Already have an account? Sign in here!',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                           fontSize: 16,
                           decoration: TextDecoration.underline,
                         ),

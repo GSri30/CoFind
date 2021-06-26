@@ -1,3 +1,4 @@
+import 'package:cofind/widgets/custom_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:lit_firebase_auth/lit_firebase_auth.dart';
 
@@ -37,11 +38,12 @@ class _TabBarScreenState extends State<TabBarScreen> {
             ),
             onPressed: () {
               context.signOut();
-              Navigator.of(context).push(AuthScreen.route);
+              Navigator.of(context).pushReplacement(AuthScreen.route);
             },
           ) //add method here
         ],
       ),
+      drawer: CustomDrawer(),
 
       // Bottom App Bar
       bottomNavigationBar: BottomAppBar(

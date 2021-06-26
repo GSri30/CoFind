@@ -15,7 +15,7 @@ class AddDataScreen extends StatelessWidget {
 
   final locationController = TextEditingController();
 
-  void submitData(BuildContext context) {
+  Future<void> submitData(BuildContext context) async {
     String institutionName = institutionNameController.text;
     String phoneNumber = phoneNumberController.text;
     String alternateNumber = alternateNumberController.text;
@@ -33,7 +33,8 @@ class AddDataScreen extends StatelessWidget {
       alternateNumber = "";
     }
 
-    final current_user = UserCRUD.read(context);
+    final current_user = await UserCRUD.get(context);
+
     List<String> Acknowledgements = [];
     //(?)
     final City = "Bangalore";
@@ -41,7 +42,7 @@ class AddDataScreen extends StatelessWidget {
     resourceFilter.forEach((resource_type, is_available) {
       if (is_available) {
         String acknowledgement = ResourceCRUD.create(Resource(
-            UserID: current_user['uid'],
+            UserID: current_user.uid,
             ResourceType: resource_type,
             InstitutionName: institutionName,
             PhoneNumber: phoneNumber,
