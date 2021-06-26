@@ -1,51 +1,62 @@
 import 'package:flutter/material.dart';
-import '../models/resource_model.dart';
 import '../widgets/data_card.dart';
+import 'package:cofind/data/ResourcesCRUD.dart';
+import 'package:cofind/data/constants.dart';
+import 'package:intl/intl.dart';
 
-class DisplayDataScreen extends StatelessWidget {
+class DisplayDataScreen extends StatefulWidget {
   static const routeName = '/display-data';
+  @override
+  _DisplayDataScreenState createState() => _DisplayDataScreenState();
+}
+
+class _DisplayDataScreenState extends State<DisplayDataScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final String route = ModalRoute.of(context).settings.arguments as String;
+    String original_route = ModalRoute.of(context).settings.arguments as String;
+    String route = toBeginningOfSentenceCase(original_route.toLowerCase());
 
     return Scaffold(
         appBar: AppBar(
-          title: Text(route),
+          title: Text(original_route),
         ),
-        body: Center(
-          child: ListView(
-            children: [
-              DataCard(
-                institutionName: DUMMY_DATA[0].institutionName,
-                phoneNumber: DUMMY_DATA[0].phoneNumber,
-                alternateNumber: DUMMY_DATA[0].alternateNumber,
-                location: DUMMY_DATA[0].location,
-                serviceNote: DUMMY_DATA[0].serviceNote,
-              ),
-              DataCard(
-                institutionName: DUMMY_DATA[0].institutionName,
-                phoneNumber: DUMMY_DATA[0].phoneNumber,
-                alternateNumber: DUMMY_DATA[0].alternateNumber,
-                location: DUMMY_DATA[0].location,
-                serviceNote: DUMMY_DATA[0].serviceNote,
-              ),
-              DataCard(
-                institutionName: DUMMY_DATA[0].institutionName,
-                phoneNumber: DUMMY_DATA[0].phoneNumber,
-                alternateNumber: DUMMY_DATA[0].alternateNumber,
-                location: DUMMY_DATA[0].location,
-                serviceNote: DUMMY_DATA[0].serviceNote,
-              ),
-              DataCard(
-                institutionName: DUMMY_DATA[0].institutionName,
-                phoneNumber: DUMMY_DATA[0].phoneNumber,
-                alternateNumber: DUMMY_DATA[0].alternateNumber,
-                location: DUMMY_DATA[0].location,
-                serviceNote: DUMMY_DATA[0].serviceNote,
-              ),
-            ],
-          ),
+        body: FutureBuilder(
+          future: Resources.orderByChild("ResourceType")
+              .equalTo(RESOURCE_TYPE_CONVERTER[route])
+              .once(),
+          builder: (context, snapshot) {
+            return _listView(snapshot, route);
+          },
         ));
+  }
+
+  Widget _listView(AsyncSnapshot snapshot, String route) {
+    if (!snapshot.hasData) {
+      return Center(child: CircularProgressIndicator());
+    } else {
+      final filtered_data = ResourceCRUD.read(snapshot.data);
+
+      if (filtered_data.length == 0) {
+        return Text(
+            "Sorry, no verified '${route}' resources are currently available. Please come back again!");
+      }
+
+      return Center(
+          child: ListView.builder(
+              itemCount: filtered_data.length,
+              itemBuilder: (BuildContext context, int index) {
+                return DataCard(
+                    institutionName: filtered_data[index].InstitutionName,
+                    phoneNumber: filtered_data[index].PhoneNumber,
+                    alternateNumber: filtered_data[index].AlternateNumber,
+                    location: filtered_data[index].Location,
+                    serviceNote: filtered_data[index].ServiceNote);
+              }));
+    }
   }
 }

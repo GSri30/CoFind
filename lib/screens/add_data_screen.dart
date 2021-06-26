@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import '../widgets/resource_filter_chip.dart';
+import '../models/resource.dart';
+import 'package:cofind/data/UsersCRUD.dart';
+import 'package:cofind/data/ResourcesCRUD.dart';
+import 'package:cofind/data/Utils.dart';
 
 class AddDataScreen extends StatelessWidget {
   static const routeName = '/add-data';
@@ -17,11 +21,47 @@ class AddDataScreen extends StatelessWidget {
     String alternateNumber = alternateNumberController.text;
     String location = locationController.text;
 
-    if (institutionName.isEmpty || phoneNumber.isEmpty || location.isEmpty) {
+    if (!Utils.has_resources(resourceFilter) ||
+        institutionName.isEmpty ||
+        phoneNumber.isEmpty ||
+        location.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Hey CoFind'er! Please fill all the details!")));
       return;
     }
+    if (alternateNumber.isEmpty) {
+      alternateNumber = "";
+    }
 
-    print(resourceFilter);
+    final current_user = UserCRUD.read(context);
+    List<String> Acknowledgements = [];
+    //(?)
+    final City = "Bangalore";
+
+    resourceFilter.forEach((resource_type, is_available) {
+      if (is_available) {
+        String acknowledgement = ResourceCRUD.create(Resource(
+            UserID: current_user['uid'],
+            ResourceType: resource_type,
+            InstitutionName: institutionName,
+            PhoneNumber: phoneNumber,
+            AlternateNumber: alternateNumber,
+            Location: location,
+            City: City,
+            ServiceNote: "",
+            isVerified: "false"));
+
+        Acknowledgements.add(acknowledgement);
+      }
+    });
+
+    for (String acknowledgement in Acknowledgements) {
+      print("\nSuccessfully submitted data! Id : ${acknowledgement}");
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+            "Hey CoFind'er! Successfully added ${Utils.available_resources(resourceFilter)} resource(s)")));
 
     Navigator.of(context).pop();
   }
