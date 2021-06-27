@@ -170,10 +170,10 @@ class DataCard extends StatelessWidget {
               ),
               onPressed: () {
                 print(RESOURCE_TYPE_DECODER[this.resourceType]);
-                // ResourceCRUD.delete(this.resourceID);
-                // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                //     content: Text(
-                //         "Hey volunteer! Successfully deleted the resource. Hope it has helped someone!")));
+                ResourceCRUD.delete(this.resourceID);
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(
+                        "Hey volunteer! Successfully deleted the resource. Hope it has helped someone!")));
                 // and reloading the page
               }),
       ]),
@@ -210,7 +210,7 @@ class DataCard extends StatelessWidget {
             children: [
               // Resource type Chip
 
-              if (isAdmin && isVerified == 'false')
+              if (isAdmin && isVerified == 'false' || isDeletable == true)
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                   padding: EdgeInsets.symmetric(vertical: 3, horizontal: 12),

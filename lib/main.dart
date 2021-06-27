@@ -1,4 +1,5 @@
 // read to use main.dart
+import 'package:cofind/screens/approve_volunteers_screen.dart';
 import 'package:cofind/screens/auth/auth.dart';
 import 'package:cofind/screens/homepage.dart';
 import 'package:cofind/screens/splash/splash.dart';
@@ -38,6 +39,8 @@ class MyApp extends StatelessWidget {
           DisplayDataScreen.routeName: (context) => DisplayDataScreen(),
           ProfileScreen.routeName: (context) => ProfileScreen(),
           VerifyDataScreen.routeName: (context) => VerifyDataScreen(),
+          ApproveVolunteersScreen.routeName: (context) =>
+              ApproveVolunteersScreen(),
         },
       ),
     );
