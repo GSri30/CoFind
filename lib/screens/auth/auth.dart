@@ -7,6 +7,9 @@ import 'package:cofind/widgets/tab_bar_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:lit_firebase_auth/lit_firebase_auth.dart';
 
+import '../../data/UsersCRUD.dart';
+import '../../models/user.dart';
+
 class AuthScreen extends StatefulWidget {
   const AuthScreen({Key key}) : super(key: key);
 
@@ -58,6 +61,29 @@ class _AuthScreenState extends State<AuthScreen>
         ),
         onAuthSuccess: () {
           Navigator.of(context).pushReplacement(TabBarScreen.route);
+
+          String currentEmail;
+          String currentID;
+          String currentName;
+
+          final currentUser = context.getSignedInUser();
+          currentUser.when(
+            (user) {
+              currentEmail = user.email;
+              currentID = user.uid;
+              currentName = user.displayName;
+            },
+            empty: () => print("NO USER"),
+            initializing: () => print("Something Went Wrong"),
+          );
+
+          user newUser = user(
+            emailID: currentEmail,
+            name: currentName,
+            uid: currentID,
+          );
+
+          UserCRUD.create(newUser);
         },
         child: Stack(
           children: [

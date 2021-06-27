@@ -6,10 +6,25 @@ import 'decoration_functions.dart';
 import 'title.dart';
 
 class Register extends StatelessWidget {
-  const Register({Key key, this.onSignInPressed}) : super(key: key);
+  Register({Key key, this.onSignInPressed}) : super(key: key);
 
   final VoidCallback onSignInPressed;
 
+  final emailField = new EmailTextFormField(
+    style: const TextStyle(
+      fontSize: 18,
+      color: Colors.white,
+    ),
+    decoration: registerInputDecoration(hintText: 'Email'),
+  );
+
+  final passwordField = PasswordTextFormField(
+    style: const TextStyle(
+      fontSize: 18,
+      color: Colors.white,
+    ),
+    decoration: registerInputDecoration(hintText: 'Password'),
+  );
   @override
   Widget build(BuildContext context) {
     final isSubmitting = context.isSubmitting();
@@ -34,22 +49,11 @@ class Register extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: EmailTextFormField(
-                        style: const TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                        ),
-                        decoration: registerInputDecoration(hintText: 'Email')),
+                    child: emailField,
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: PasswordTextFormField(
-                      style: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
-                      ),
-                      decoration: registerInputDecoration(hintText: 'Password'),
-                    ),
+                    child: passwordField,
                   ),
                   SignUpBar(
                     label: 'Sign up',

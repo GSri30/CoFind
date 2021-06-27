@@ -157,6 +157,7 @@ class _AddDataScreenState extends State<AddDataScreen> {
             SizedBox(
               height: 16,
             ),
+
             //City
             DropdownButton(
               value: cityValue,
@@ -175,6 +176,9 @@ class _AddDataScreenState extends State<AddDataScreen> {
                 });
               },
               hint: Text('City'),
+            ),
+            SizedBox(
+              height: 16,
             ),
 
             // Location
