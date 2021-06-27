@@ -17,6 +17,18 @@ class TabBarScreen extends StatefulWidget {
 }
 
 class _TabBarScreenState extends State<TabBarScreen> {
+  final cityList = [
+    'Bengaluru',
+    'Hyderabad',
+    'Delhi',
+    'Mumbai',
+    'Chennai',
+    'Kolkata',
+  ];
+
+  // sending this value to display data for filtering logic
+  String cityValue;
+
   int _pageNum = 0;
 
   PageController _page = PageController(initialPage: 0);
@@ -86,25 +98,50 @@ class _TabBarScreenState extends State<TabBarScreen> {
       ),
 
       // Body PageView
-      body: PageView(
-        controller: _page,
-        onPageChanged: (num) {
-          setState(() {
-            _pageNum = num;
-          });
-        },
+      body: Column(children: [
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: DropdownButton(
+            value: cityValue,
+            items: cityList.map(
+              (cityValue) {
+                return DropdownMenuItem(
+                  child: Text(cityValue),
+                  value: cityValue,
+                );
+              },
+            ).toList(),
+            isExpanded: true,
+            onChanged: (newValue) {
+              setState(() {
+                cityValue = newValue;
+              });
+            },
+            hint: Text('City'),
+          ),
+        ),
+        Expanded(
+          child: PageView(
+            controller: _page,
+            onPageChanged: (num) {
+              setState(() {
+                _pageNum = num;
+              });
+            },
 
-        // Pages widget Home and emergency contact Number
-        children: <Widget>[
-          // first page : Home page
-          HomePage(),
+            // Pages widget Home and emergency contact Number
+            children: <Widget>[
+              // first page : Home page
+              HomePage(),
 
-          // Second page : Emergency contact page
-          EmergencyContactScreen()
-        ],
-        physics:
-            NeverScrollableScrollPhysics(), // Comment this if you need to use Swipe.
-      ),
+              // Second page : Emergency contact page
+              EmergencyContactScreen(),
+            ],
+            physics:
+                NeverScrollableScrollPhysics(), // Comment this if you need to use Swipe.
+          ),
+        ),
+      ]),
 
       // Floating Action Button
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

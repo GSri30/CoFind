@@ -1,4 +1,5 @@
 import 'package:cofind/config/palette.dart';
+import 'package:cofind/data/ResourcesCRUD.dart';
 import 'package:cofind/data/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
@@ -19,6 +20,9 @@ class DataCard extends StatelessWidget {
   final String city;
   final bool isAdmin;
   final String resourceType;
+  final String resourceID;
+  final bool isDeletable;
+  final String isVerified;
 
   final serviceNoteController = TextEditingController();
 
@@ -62,6 +66,15 @@ class DataCard extends StatelessWidget {
                             child: Text('CANCEL')),
                         TextButton(
                             onPressed: () {
+                              ResourceCRUD.add_servicenote(
+                                  this.resourceID, serviceNoteController.text);
+                              ResourceCRUD.verify(this.resourceID);
+                              Navigator.pop(context);
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  content: Text(
+                                      "Hey volunteer! Successfully added the service note and marked the resource as verified!")));
+                              //Hard refresh!!!!
+
                               // value to be given to service note is
                               // in serviceNoteController.text
 
@@ -116,11 +129,6 @@ class DataCard extends StatelessWidget {
             onPressed: () {
               // logic for opening the service note sheet
               openServiceNoteEditor(context);
-
-              // adding the service note
-
-              // pushing the data and turing isVerified to true
-
               // refreshing the page!
             }),
         SizedBox(
@@ -132,23 +140,43 @@ class DataCard extends StatelessWidget {
               color: Colors.red,
             ),
             onPressed: () {
-              // logic for deleting this entry
-
+              ResourceCRUD.delete(this.resourceID);
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                      "Hey volunteer! Successfully deleted the resource.")));
               // and reloading the page
             }),
       ]),
     );
   }
 
-  Widget userView(String institutionName) {
+  Widget userView(context, String institutionName) {
     return Container(
       margin: EdgeInsets.all(8),
       width: double.infinity,
-      child: Text(
-        institutionName,
-        textAlign: TextAlign.left,
-        style: heading,
-      ),
+      child: Row(children: [
+        Expanded(
+          child: Text(
+            institutionName,
+            textAlign: TextAlign.left,
+            style: heading,
+          ),
+        ),
+        if (this.isDeletable || this.isAdmin && this.isVerified == 'true')
+          TextButton(
+              child: Icon(
+                Icons.delete,
+                color: Colors.red,
+              ),
+              onPressed: () {
+                print(RESOURCE_TYPE_DECODER[this.resourceType]);
+                // ResourceCRUD.delete(this.resourceID);
+                // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                //     content: Text(
+                //         "Hey volunteer! Successfully deleted the resource. Hope it has helped someone!")));
+                // and reloading the page
+              }),
+      ]),
     );
   }
 
@@ -161,6 +189,9 @@ class DataCard extends StatelessWidget {
     this.city,
     this.isAdmin = false,
     this.resourceType = null,
+    this.resourceID,
+    this.isDeletable = false,
+    this.isVerified = 'true',
   }) {
     print(resourceType);
   }
@@ -179,7 +210,7 @@ class DataCard extends StatelessWidget {
             children: [
               // Resource type Chip
 
-              if (isAdmin)
+              if (isAdmin && isVerified == 'false')
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                   padding: EdgeInsets.symmetric(vertical: 3, horizontal: 12),
@@ -196,73 +227,10 @@ class DataCard extends StatelessWidget {
                 ),
 
               // Institution Name and call button
-              isAdmin
-                  ? adminView(institutionName, context)
-                  : userView(institutionName),
-
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 8),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextButton(
-                        onPressed: () {
-                          UrlLauncher.launch("tel://" + phoneNumber);
-                        },
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Phone Number',
-                                style: labelStyle,
-                              ),
-                              Text(
-                                phoneNumber,
-                                style: linkStyle,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: TextButton(
-                        onPressed: () {
-                          if (alternateNumber == "" ||
-                              alternateNumber == null ||
-                              alternateNumber == 'Null') {
-                            return;
-                          } else {
-                            UrlLauncher.launch("tel://" + alternateNumber);
-                          }
-                        },
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Alternate Number',
-                                style: labelStyle,
-                              ),
-                              alternateNumber == "" ||
-                                      alternateNumber == null ||
-                                      alternateNumber == 'Null'
-                                  ? Text('not given')
-                                  : Text(
-                                      alternateNumber,
-                                      style: linkStyle,
-                                    ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              if (isAdmin && isVerified == 'false')
+                adminView(institutionName, context)
+              else
+                userView(context, institutionName),
 
               Container(
                 margin: EdgeInsets.symmetric(vertical: 8),

@@ -1,4 +1,7 @@
+import 'package:cofind/data/ResourcesCRUD.dart';
+import 'package:cofind/data/constants.dart';
 import 'package:cofind/screens/auth/auth.dart';
+import 'package:cofind/widgets/data_card.dart';
 import 'package:flutter/material.dart';
 import 'package:cofind/models/user.dart';
 import 'package:lit_firebase_auth/lit_firebase_auth.dart';
@@ -13,6 +16,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(UserCRUD.get(context).uid);
     user usr = UserCRUD.get(context);
 
     String userName = "User";
@@ -30,6 +34,7 @@ class ProfileScreen extends StatelessWidget {
       body: Column(
         children: [
           // user name
+
           EditableCard(
             controller: nameController,
             title: userName,
@@ -49,7 +54,65 @@ class ProfileScreen extends StatelessWidget {
           ),
 
           // list of added entries with delete options
+
+          Container(
+            margin: EdgeInsets.all(16),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Your Submissions',
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Container(
+                child: FutureBuilder(
+              future: Resources.once(),
+              builder: (context, snapshot) {
+                return _listView(usr.uid, snapshot);
+              },
+            )),
+          ),
         ],
+      ),
+    );
+  }
+}
+
+Widget _listView(uid, AsyncSnapshot snapshot) {
+  if (!snapshot.hasData) {
+    return Center(child: CircularProgressIndicator());
+  } else {
+    final filtered_data = ResourceCRUD.get_user_specific(uid, snapshot.data);
+
+    if (filtered_data.length == 0) {
+      return Container(
+        margin: EdgeInsets.all(16),
+        child: Text(
+          "No resource is submitted so far. Use plus button on homepage to share information about resources",
+          style: TextStyle(fontSize: 16),
+          textAlign: TextAlign.center,
+        ),
+      );
+    }
+
+    return Center(
+      child: ListView.builder(
+        itemCount: filtered_data.length,
+        itemBuilder: (BuildContext context, int index) {
+          return DataCard(
+            institutionName: filtered_data[index].InstitutionName,
+            phoneNumber: filtered_data[index].PhoneNumber,
+            alternateNumber: filtered_data[index].AlternateNumber,
+            location: filtered_data[index].Location,
+            serviceNote: filtered_data[index].ServiceNote,
+            city: filtered_data[index].City,
+            resourceType: filtered_data[index].ResourceType,
+            resourceID: filtered_data[index].ResourceID,
+            isDeletable: true,
+          );
+        },
       ),
     );
   }

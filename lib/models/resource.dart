@@ -7,7 +7,8 @@ class Resource {
       Location,
       City,
       ServiceNote,
-      isVerified;
+      isVerified,
+      ResourceID = "";
 
   Resource(
       {this.UserID,
@@ -20,7 +21,7 @@ class Resource {
       this.ServiceNote,
       this.isVerified});
 
-  Resource.dynamic(dynamic data) {
+  Resource.dynamic(String resourceID, dynamic data) {
     this.UserID = data['UserID'];
     this.ResourceType = data['ResourceType'];
     this.InstitutionName = data['InstitutionName'];
@@ -30,5 +31,6 @@ class Resource {
     this.City = data['City'];
     this.ServiceNote = data['ServiceNote'];
     this.isVerified = data['isVerified'];
+    this.ResourceID = resourceID;
   }
 }

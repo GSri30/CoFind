@@ -39,7 +39,7 @@ class _VerifyDataScreenState extends State<VerifyDataScreen> {
     if (!snapshot.hasData) {
       return Center(child: CircularProgressIndicator());
     } else {
-      final filtered_data = ResourceCRUD.read(snapshot.data);
+      final filtered_data = ResourceCRUD.get_unverified(snapshot.data);
 
       if (filtered_data.length == 0) {
         return Container(
@@ -64,7 +64,9 @@ class _VerifyDataScreenState extends State<VerifyDataScreen> {
               serviceNote: filtered_data[index].ServiceNote,
               city: filtered_data[index].City,
               isAdmin: true,
+              isVerified: filtered_data[index].isVerified as String,
               resourceType: filtered_data[index].ResourceType,
+              resourceID: filtered_data[index].ResourceID,
             );
           },
         ),

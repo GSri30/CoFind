@@ -18,8 +18,8 @@ class CustomDrawer extends StatefulWidget {
 }
 
 class _CustomDrawerState extends State<CustomDrawer> {
-  String _email = 'ExampleName';
-  String _name = 'Example@gmail.com';
+  String _name = 'ExampleName';
+  String _email = 'Example@gmail.com';
 
   @override
   void initState() {

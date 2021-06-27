@@ -26,21 +26,6 @@ class ResourceCRUD {
     return newResource.key;
   }
 
-  static List<Resource> read(snapshot) {
-    List<Resource> result = [];
-
-    if (snapshot.value != null) {
-      Map<dynamic, dynamic> resources = snapshot.value;
-      resources.forEach((resourceID, resource) {
-        if (resource['isVerified'] != 'false') {
-          result.add(new Resource.dynamic(resource));
-        }
-      });
-    }
-
-    return new List.from(result.reversed);
-  }
-
   static void update(String resourceID, Resource updatedResource) {
     final DatabaseReference resource = Resources.child(resourceID);
 
@@ -84,13 +69,58 @@ class ResourceCRUD {
     resource.update({'ServiceNote': note});
   }
 
-  static List<Resource> get(snapshot) {
+  static List<Resource> get_all(snapshot) {
     List<Resource> result = [];
 
     if (snapshot.value != null) {
       Map<dynamic, dynamic> resources = snapshot.value;
       resources.forEach((resourceID, resource) {
-        result.add(new Resource.dynamic(resource));
+        result.add(new Resource.dynamic(resourceID, resource));
+      });
+    }
+
+    return new List.from(result.reversed);
+  }
+
+  static List<Resource> get_verified(snapshot) {
+    List<Resource> result = [];
+
+    if (snapshot.value != null) {
+      Map<dynamic, dynamic> resources = snapshot.value;
+      resources.forEach((resourceID, resource) {
+        if (resource['isVerified'] != 'false') {
+          result.add(new Resource.dynamic(resourceID, resource));
+        }
+      });
+    }
+
+    return new List.from(result.reversed);
+  }
+
+  static List<Resource> get_user_specific(String uid, snapshot) {
+    List<Resource> result = [];
+
+    if (snapshot.value != null) {
+      Map<dynamic, dynamic> resources = snapshot.value;
+      resources.forEach((resourceID, resource) {
+        if (resource['UserID'] == uid) {
+          result.add(new Resource.dynamic(resourceID, resource));
+        }
+      });
+    }
+
+    return new List.from(result.reversed);
+  }
+
+  static List<Resource> get_unverified(snapshot) {
+    List<Resource> result = [];
+
+    if (snapshot.value != null) {
+      Map<dynamic, dynamic> resources = snapshot.value;
+      resources.forEach((resourceID, resource) {
+        if (resource['isVerified'] != 'true') {
+          result.add(new Resource.dynamic(resourceID, resource));
+        }
       });
     }
 

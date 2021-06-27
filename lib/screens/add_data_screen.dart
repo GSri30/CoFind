@@ -1,9 +1,16 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import '../widgets/resource_filter_chip.dart';
 import '../models/resource.dart';
 import 'package:cofind/data/UsersCRUD.dart';
 import 'package:cofind/data/ResourcesCRUD.dart';
 import 'package:cofind/data/Utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:lit_firebase_auth/lit_firebase_auth.dart';
+
+final DatabaseReference firebase = FirebaseDatabase.instance.reference();
+final DatabaseReference DBrootReference = firebase.reference();
+final DatabaseReference Users = DBrootReference.child('Users');
 
 class AddDataScreen extends StatefulWidget {
   static const routeName = '/add-data';

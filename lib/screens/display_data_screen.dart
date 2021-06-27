@@ -39,7 +39,7 @@ class _DisplayDataScreenState extends State<DisplayDataScreen> {
     if (!snapshot.hasData) {
       return Center(child: CircularProgressIndicator());
     } else {
-      final filtered_data = ResourceCRUD.read(snapshot.data);
+      final filtered_data = ResourceCRUD.get_verified(snapshot.data);
 
       if (filtered_data.length == 0) {
         return Container(
@@ -63,6 +63,7 @@ class _DisplayDataScreenState extends State<DisplayDataScreen> {
               location: filtered_data[index].Location,
               serviceNote: filtered_data[index].ServiceNote,
               city: filtered_data[index].City,
+              isVerified: filtered_data[index].isVerified,
             );
           },
         ),
