@@ -2,6 +2,7 @@ import 'package:cofind/screens/auth/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cofind/models/user.dart';
 import 'package:lit_firebase_auth/lit_firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cofind/data/UsersCRUD.dart';
 
 class ProfileScreen extends StatelessWidget {

@@ -1,20 +1,35 @@
+import 'package:cofind/models/user.dart';
 import 'package:cofind/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:lit_firebase_auth/lit_firebase_auth.dart';
 import '../screens/auth/auth.dart';
 
 class DrawerMenuList extends StatefulWidget {
-  // const DrawerMenuList({Key? key}) : super(key: key);
+  user usr;
+  DrawerMenuList({Key key, this.usr}) : super(key: key);
 
   @override
   _DrawerMenuListState createState() => _DrawerMenuListState();
 }
 
 class _DrawerMenuListState extends State<DrawerMenuList> {
-  final isAdmin = true;
+  bool isAdmin = false;
 
   @override
   Widget build(BuildContext context) {
+    final currentUser = context.getSignedInUser();
+    currentUser.when(
+      (user) {
+        if (user.isEmailVerified) {
+          isAdmin = true;
+        } else {
+          isAdmin = false;
+        }
+      },
+      empty: () => print("NO USER"),
+      initializing: () => print("Something Went Wrong"),
+    );
+
     return Column(
       children: <Widget>[
         CustomListTile(

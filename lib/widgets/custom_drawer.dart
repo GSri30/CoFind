@@ -58,7 +58,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 // )
               ),
             ),
-            DrawerMenuList(),
+            DrawerMenuList(
+              usr: usr,
+            ),
           ],
         ),
       ),
