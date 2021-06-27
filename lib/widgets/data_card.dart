@@ -265,6 +265,70 @@ class DataCard extends StatelessWidget {
               ),
 
               Container(
+                margin: EdgeInsets.symmetric(vertical: 8),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () {
+                          UrlLauncher.launch("tel://" + phoneNumber);
+                        },
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Phone Number',
+                                style: labelStyle,
+                              ),
+                              Text(
+                                phoneNumber,
+                                style: linkStyle,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () {
+                          if (alternateNumber == "" ||
+                              alternateNumber == null ||
+                              alternateNumber == 'Null') {
+                            return;
+                          } else {
+                            UrlLauncher.launch("tel://" + alternateNumber);
+                          }
+                        },
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Alternate Number',
+                                style: labelStyle,
+                              ),
+                              alternateNumber == "" ||
+                                      alternateNumber == null ||
+                                      alternateNumber == 'Null'
+                                  ? Text('not given')
+                                  : Text(
+                                      alternateNumber,
+                                      style: linkStyle,
+                                    ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              Container(
                 margin: EdgeInsets.all(8),
                 child: Row(
                   children: [
