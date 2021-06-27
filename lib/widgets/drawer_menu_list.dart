@@ -69,7 +69,11 @@ class _DrawerMenuListState extends State<DrawerMenuList> {
         if (!isAdmin)
           CustomListTile(
             text: "Become a volunteer",
-            onTap: () {}, // add method to verify the resources only for admin
+            onTap: () {
+              popupVolunteer(context);
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text("Request for volunteering has been sent!")));
+            }, // add method to verify the resources only for admin
             icon: FontAwesomeIcons.handsHelping,
           ),
         CustomListTile(
@@ -136,4 +140,35 @@ class CustomListTile extends StatelessWidget {
       ),
     );
   }
+}
+
+void popupVolunteer(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Become a volunteer'),
+        content: Text("Click yes to send a request to become a volunteer"),
+        actions: <Widget>[
+          TextButton(
+            child: Text("YES"),
+            onPressed: () {
+              // code for sending request and changing changing user detail
+              // hasRequest --> true
+
+              //Put your code here which you want to execute on Yes button click.
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: Text("NO"),
+            onPressed: () {
+              //Put your code here which you want to execute on No button click.
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }
