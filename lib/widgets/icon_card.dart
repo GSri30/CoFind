@@ -1,3 +1,4 @@
+import 'package:cofind/screens/crowd_alert_screen.dart';
 import 'package:flutter/material.dart';
 import '../screens/display_data_screen.dart';
 
@@ -6,8 +7,18 @@ class iconCard extends StatelessWidget {
   final IconData icon;
   final double w;
   final double h;
+  final String city;
+  final String route;
+  final String routeLabel;
 
-  iconCard({this.label, this.icon, this.w, this.h});
+  iconCard(
+      {this.label,
+      this.icon,
+      this.w,
+      this.h,
+      this.city,
+      this.route = '',
+      this.routeLabel = ''});
 
   final List<BoxShadow> softShadow = [
     BoxShadow(
@@ -38,8 +49,12 @@ class iconCard extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () {
-          Navigator.of(context)
-              .pushNamed(DisplayDataScreen.routeName, arguments: label);
+          if (route == '')
+            Navigator.of(context).pushNamed(DisplayDataScreen.routeName,
+                arguments: [label, city]);
+          else {
+            Navigator.of(context).pushNamed(route, arguments: routeLabel);
+          }
         },
         borderRadius: BorderRadius.circular(15),
         splashColor: Theme.of(context).primaryColor,

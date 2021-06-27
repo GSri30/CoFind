@@ -9,7 +9,7 @@ Map<String, String> RESOURCE_TYPE_CONVERTER = {
   'Awareness': '8',
   'Medication': '9',
   'Food': '10',
-  'Quarentine': '11',
+  'Quarantine': '11',
   'Funeral': '12',
 };
 
@@ -24,6 +24,6 @@ Map<String, String> RESOURCE_TYPE_DECODER = {
   '8': 'Awareness',
   '9': 'Medication',
   '10': 'Food',
-  '11': 'Quarentine',
+  '11': 'Quarantine',
   '12': 'Funeral'
 };

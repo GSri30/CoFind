@@ -4,6 +4,7 @@ import 'package:cofind/screens/profile_screen.dart';
 import 'package:cofind/screens/verify_data_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:lit_firebase_auth/lit_firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../screens/auth/auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -19,7 +20,7 @@ class _DrawerMenuListState extends State<DrawerMenuList> {
   bool isAdmin = false;
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     final currentUser = context.getSignedInUser();
     currentUser.when(
       (user) {
@@ -33,8 +34,12 @@ class _DrawerMenuListState extends State<DrawerMenuList> {
       initializing: () => print("Something Went Wrong"),
     );
 
-    isAdmin = true;
+    if (isAdmin) {}
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         CustomListTile(
@@ -56,18 +61,15 @@ class _DrawerMenuListState extends State<DrawerMenuList> {
           CustomListTile(
             text: "Approve Volunteers",
             onTap: () {
-              // volunteer approve screen
               Navigator.of(context)
                   .pushNamed(ApproveVolunteersScreen.routeName);
-            },
+            }, // add method to verify the resources only for admin
             icon: FontAwesomeIcons.userPlus,
           ),
         if (!isAdmin)
           CustomListTile(
             text: "Become a volunteer",
-            onTap: () {
-              popupVolunteer(context);
-            }, // add method to verify the resources only for admin
+            onTap: () {}, // add method to verify the resources only for admin
             icon: FontAwesomeIcons.handsHelping,
           ),
         CustomListTile(
@@ -134,35 +136,4 @@ class CustomListTile extends StatelessWidget {
       ),
     );
   }
-}
-
-void popupVolunteer(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Become a volunteer'),
-        content: Text("Click yes to send a request to become a volunteer"),
-        actions: <Widget>[
-          FlatButton(
-            child: Text("YES"),
-            onPressed: () {
-              // code for sending request and changing changing user detail
-              // hasRequest --> true
-
-              //Put your code here which you want to execute on Yes button click.
-              Navigator.of(context).pop();
-            },
-          ),
-          FlatButton(
-            child: Text("NO"),
-            onPressed: () {
-              //Put your code here which you want to execute on No button click.
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      );
-    },
-  );
 }

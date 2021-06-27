@@ -28,6 +28,20 @@ class EmergencyContactCRUD {
     return new List.from(result.reversed);
   }
 
+  static List<EmergencyContact> read_specific(String city, snapshot) {
+    List<EmergencyContact> result = [];
+
+    if (snapshot.value != null) {
+      Map<dynamic, dynamic> contacts = snapshot.value;
+      contacts.forEach((contactID, contact) {
+        if (contact['city'] == null || contact['city'] == city)
+          result.add(new EmergencyContact.dynamic(contact));
+      });
+    }
+
+    return new List.from(result.reversed);
+  }
+
   static void delete(String contactID) async {
     final DatabaseReference contact = Contacts.child(contactID);
     await contact.remove();

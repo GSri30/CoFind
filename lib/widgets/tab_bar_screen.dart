@@ -99,27 +99,28 @@ class _TabBarScreenState extends State<TabBarScreen> {
 
       // Body PageView
       body: Column(children: [
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: DropdownButton(
-            value: cityValue,
-            items: cityList.map(
-              (cityValue) {
-                return DropdownMenuItem(
-                  child: Text(cityValue),
-                  value: cityValue,
-                );
+        if (_pageNum == 0)
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: DropdownButton(
+              value: cityValue,
+              items: cityList.map(
+                (cityValue) {
+                  return DropdownMenuItem(
+                    child: Text(cityValue),
+                    value: cityValue,
+                  );
+                },
+              ).toList(),
+              isExpanded: true,
+              onChanged: (newValue) {
+                setState(() {
+                  cityValue = newValue;
+                });
               },
-            ).toList(),
-            isExpanded: true,
-            onChanged: (newValue) {
-              setState(() {
-                cityValue = newValue;
-              });
-            },
-            hint: Text('City'),
+              hint: Text('City'),
+            ),
           ),
-        ),
         Expanded(
           child: PageView(
             controller: _page,
@@ -132,10 +133,11 @@ class _TabBarScreenState extends State<TabBarScreen> {
             // Pages widget Home and emergency contact Number
             children: <Widget>[
               // first page : Home page
-              HomePage(),
-
+              HomePage(cityValue: cityValue),
+              //Refresh!!
               // Second page : Emergency contact page
-              EmergencyContactScreen(),
+              EmergencyContactScreen(cityValue: cityValue),
+              //Refresh!!
             ],
             physics:
                 NeverScrollableScrollPhysics(), // Comment this if you need to use Swipe.

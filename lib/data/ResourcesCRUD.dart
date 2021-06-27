@@ -1,3 +1,4 @@
+import 'package:cofind/models/crowd.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:cofind/data/constants.dart';
 import 'package:cofind/models/resource.dart';
@@ -6,6 +7,7 @@ final DatabaseReference firebase = FirebaseDatabase.instance.reference();
 final DatabaseReference DBrootReference = firebase.reference();
 final DatabaseReference Resources = DBrootReference.child('Resources');
 final DatabaseReference Requests = DBrootReference.child('Reqests');
+final DatabaseReference CrowdRef = DBrootReference.child('Crowd');
 
 class ResourceCRUD {
   static String create(Resource Resource) {
@@ -97,6 +99,22 @@ class ResourceCRUD {
     return new List.from(result.reversed);
   }
 
+  static List<Resource> get_verified_city(snapshot, city) {
+    List<Resource> result = [];
+
+    if (snapshot.value != null) {
+      Map<dynamic, dynamic> resources = snapshot.value;
+      resources.forEach((resourceID, resource) {
+        if (resource['isVerified'] != 'false' &&
+            (city == null || resource['City'] == city)) {
+          result.add(new Resource.dynamic(resourceID, resource));
+        }
+      });
+    }
+
+    return new List.from(result.reversed);
+  }
+
   static List<Resource> get_user_specific(String uid, snapshot) {
     List<Resource> result = [];
 
@@ -143,5 +161,21 @@ class ResourceCRUD {
     });
 
     return reqResource.key;
+  }
+
+  static List<Crowd> get_crowd_data(snapshot) {
+    List<Crowd> result = [];
+
+    if (snapshot.value != null) {
+      Map<dynamic, dynamic> crowd = snapshot.value;
+      crowd.forEach((pincode, crowd) {
+        result.add(new Crowd(
+            pincode: pincode,
+            lastUpdatedAt: crowd['lastUpdatedAt'],
+            population: crowd['population']));
+      });
+    }
+
+    return new List.from(result.reversed);
   }
 }

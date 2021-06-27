@@ -193,6 +193,7 @@ class DataCard extends StatelessWidget {
     this.isDeletable = false,
     this.isVerified = 'true',
   }) {
+    print('resourceType');
     print(resourceType);
   }
 
@@ -215,7 +216,7 @@ class DataCard extends StatelessWidget {
                   margin: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                   padding: EdgeInsets.symmetric(vertical: 3, horizontal: 12),
                   child: Text(
-                    RESOURCE_TYPE_DECODER[resourceType],
+                    RESOURCE_TYPE_DECODER[resourceType] ?? 'Resources',
                     style: TextStyle(
                       fontSize: 12,
                       color: Colors.white,

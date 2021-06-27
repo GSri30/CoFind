@@ -1,3 +1,4 @@
+import 'package:cofind/data/CrowdCRUD.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import '../widgets/resource_filter_chip.dart';
@@ -36,6 +37,8 @@ class _AddDataScreenState extends State<AddDataScreen> {
     String alternateNumber = alternateNumberController.text;
     String location = locationController.text;
     String city = cityValue;
+
+    CrowdCRUD.get_place("500039");
 
     if (!Utils.has_resources(resourceFilter) ||
         institutionName.isEmpty ||

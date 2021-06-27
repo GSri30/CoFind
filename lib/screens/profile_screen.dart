@@ -53,6 +53,26 @@ class ProfileScreen extends StatelessWidget {
             icon: Icon(Icons.email),
           ),
 
+          // password reset clickable
+
+          InkWell(
+            onTap: () {
+              // function for resetting password
+
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                      "Hey CoFind'er! Email has been sent for password reset")));
+            },
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: ListTile(
+                leading: Icon(Icons.shield),
+                title: Text('Reset password'),
+                trailing: Icon(Icons.edit),
+              ),
+            ),
+          ),
+
           // list of added entries with delete options
 
           Container(
@@ -88,7 +108,7 @@ Widget _listView(uid, AsyncSnapshot snapshot) {
 
     if (filtered_data.length == 0) {
       return Container(
-        margin: EdgeInsets.all(16),
+        margin: EdgeInsets.symmetric(horizontal: 16),
         child: Text(
           "No resource is submitted so far. Use plus button on homepage to share information about resources",
           style: TextStyle(fontSize: 16),
@@ -212,7 +232,7 @@ class _EditableCardState extends State<EditableCard> {
             context, widget.controller, widget.editText, widget.subtitle);
       },
       child: Container(
-        margin: EdgeInsets.all(16),
+        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: ListTile(
           leading: widget.icon,
           title: Text(widget.title),

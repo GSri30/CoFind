@@ -1,6 +1,7 @@
 // read to use main.dart
 import 'package:cofind/screens/approve_volunteers_screen.dart';
 import 'package:cofind/screens/auth/auth.dart';
+import 'package:cofind/screens/crowd_alert_screen.dart';
 import 'package:cofind/screens/homepage.dart';
 import 'package:cofind/screens/splash/splash.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
           VerifyDataScreen.routeName: (context) => VerifyDataScreen(),
           ApproveVolunteersScreen.routeName: (context) =>
               ApproveVolunteersScreen(),
+          CrowdData.routeName: (context) => CrowdData(),
         },
       ),
     );

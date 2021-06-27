@@ -11,10 +11,11 @@ class ApproveVolunteersScreen extends StatelessWidget {
       ),
       body: ListView(
         children: [
-          VolunteerApprovalCard(),
-          VolunteerApprovalCard(),
-          VolunteerApprovalCard(),
-          VolunteerApprovalCard(),
+          VolunteerApprovalCard('Divyam', 'divyam.agrawal@iiitb.ac.in'),
+          VolunteerApprovalCard('Jagadesh', 'Siva.jagadesh@iiitb.ac.in'),
+          VolunteerApprovalCard('Harsha', 'g.sriharsha@iiitb.ac.in'),
+          VolunteerApprovalCard('Nikhil', 'nikhil.agarwal@iiitb.ac.in'),
+          VolunteerApprovalCard('Yasho', 'Yashovardhan.Reddy@iiitb.ac.in'),
         ],
       ),
     );
@@ -22,6 +23,11 @@ class ApproveVolunteersScreen extends StatelessWidget {
 }
 
 class VolunteerApprovalCard extends StatelessWidget {
+  final String name;
+  final String email;
+
+  VolunteerApprovalCard(this.name, this.email);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,8 +35,11 @@ class VolunteerApprovalCard extends StatelessWidget {
         border: Border(bottom: BorderSide(width: 0.1)),
       ),
       child: ListTile(
-        title: Text('User Name'),
-        subtitle: Text('email'),
+        title: Text(name),
+        subtitle: Text(
+          email,
+          style: TextStyle(fontSize: 11),
+        ),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

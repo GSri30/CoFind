@@ -1,9 +1,13 @@
+import 'package:cofind/screens/crowd_alert_screen.dart';
 import 'package:cofind/widgets/disclaimer_card.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../widgets/icon_card.dart';
 
 class HomePage extends StatelessWidget {
+  String cityValue;
+  HomePage({this.cityValue});
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -23,20 +27,28 @@ class HomePage extends StatelessWidget {
                   icon: Icons.grass,
                   w: 100,
                   h: 100,
+                  city: cityValue,
                 ),
                 iconCard(
                   label: 'AMBULANCE',
                   icon: FontAwesomeIcons.ambulance,
                   w: 100,
                   h: 100,
+                  city: cityValue,
                 ),
                 iconCard(
-                    label: 'BLOOD', icon: Icons.local_hospital, w: 100, h: 100),
+                  label: 'BLOOD',
+                  icon: Icons.local_hospital,
+                  w: 100,
+                  h: 100,
+                  city: cityValue,
+                ),
                 iconCard(
                   label: 'HOSPITAL',
                   icon: FontAwesomeIcons.hospital,
                   w: 100,
                   h: 100,
+                  city: cityValue,
                 ),
               ]),
             ),
@@ -46,15 +58,18 @@ class HomePage extends StatelessWidget {
               child: Row(
                 children: [
                   iconCard(
-                      label: 'VACCINATION',
-                      icon: FontAwesomeIcons.syringe,
-                      w: 216,
-                      h: 150),
+                    label: 'VACCINATION',
+                    icon: FontAwesomeIcons.syringe,
+                    w: 216,
+                    h: 150,
+                    city: cityValue,
+                  ),
                   iconCard(
                     label: 'TESTING',
                     icon: FontAwesomeIcons.vial,
                     w: 216,
                     h: 150,
+                    city: cityValue,
                   ),
                 ],
               ),
@@ -69,12 +84,16 @@ class HomePage extends StatelessWidget {
                     icon: FontAwesomeIcons.userMd,
                     w: 216,
                     h: 150,
+                    city: cityValue,
                   ),
                   iconCard(
-                    label: 'AWARENESS',
-                    icon: FontAwesomeIcons.newspaper,
+                    route: CrowdData.routeName,
+                    label: 'CROWD LEVEL',
+                    icon: FontAwesomeIcons.searchLocation,
                     w: 216,
                     h: 150,
+                    city: cityValue,
+                    routeLabel: 'CROWD LEVEL',
                   ),
                 ],
               ),
@@ -84,27 +103,33 @@ class HomePage extends StatelessWidget {
             child: FittedBox(
               child: Row(children: [
                 iconCard(
-                  label: 'MEDICATIONS',
+                  label: 'MEDICATION',
                   icon: FontAwesomeIcons.tablets,
                   w: 100,
                   h: 100,
+                  city: cityValue,
                 ),
                 iconCard(
                   label: 'FOOD',
                   icon: FontAwesomeIcons.utensilSpoon,
                   w: 100,
                   h: 100,
+                  city: cityValue,
                 ),
                 iconCard(
-                    label: 'QUARANTINE',
-                    icon: FontAwesomeIcons.houseUser,
-                    w: 100,
-                    h: 100),
+                  label: 'QUARANTINE',
+                  icon: FontAwesomeIcons.houseUser,
+                  w: 100,
+                  h: 100,
+                  city: cityValue,
+                ),
                 iconCard(
-                    label: 'FUNERAL',
-                    icon: FontAwesomeIcons.skullCrossbones,
-                    w: 100,
-                    h: 100),
+                  label: 'FUNERAL',
+                  icon: FontAwesomeIcons.skullCrossbones,
+                  w: 100,
+                  h: 100,
+                  city: cityValue,
+                ),
               ]),
             ),
           ),

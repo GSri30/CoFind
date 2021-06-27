@@ -18,7 +18,9 @@ class _DisplayDataScreenState extends State<DisplayDataScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String original_route = ModalRoute.of(context).settings.arguments as String;
+    dynamic args = ModalRoute.of(context).settings.arguments as List<String>;
+    String original_route = args[0];
+    String city = args[1];
     String route = toBeginningOfSentenceCase(original_route.toLowerCase());
 
     return Scaffold(
@@ -30,16 +32,16 @@ class _DisplayDataScreenState extends State<DisplayDataScreen> {
               .equalTo(RESOURCE_TYPE_CONVERTER[route])
               .once(),
           builder: (context, snapshot) {
-            return _listView(snapshot, route);
+            return _listView(snapshot, route, city);
           },
         ));
   }
 
-  Widget _listView(AsyncSnapshot snapshot, String route) {
+  Widget _listView(AsyncSnapshot snapshot, String route, String city) {
     if (!snapshot.hasData) {
       return Center(child: CircularProgressIndicator());
     } else {
-      final filtered_data = ResourceCRUD.get_verified(snapshot.data);
+      final filtered_data = ResourceCRUD.get_verified_city(snapshot.data, city);
 
       if (filtered_data.length == 0) {
         return Container(

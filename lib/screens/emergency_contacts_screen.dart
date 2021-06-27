@@ -1,20 +1,30 @@
 import 'package:flutter/material.dart';
-import '../models/emergency_contact.dart';
+import '../data/EmergencyContactsCRUD.dart';
+// import '../models/emergency_contact.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
-class EmergencyContactScreen extends StatelessWidget {
+class EmergencyContactScreen extends StatefulWidget {
+  String cityValue;
+  EmergencyContactScreen({this.cityValue});
+
+  @override
+  _EmergencyContactScreenState createState() =>
+      _EmergencyContactScreenState(city: cityValue);
+}
+
+class _EmergencyContactScreenState extends State<EmergencyContactScreen> {
+  String city;
+  _EmergencyContactScreenState({this.city});
+
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-      child: ListView.builder(
-        itemBuilder: (ctx, i) {
-          return EmergencyContactCard(
-            name: DUMMY_DATA[i].name,
-            number: DUMMY_DATA[i].number,
-          );
+      child: FutureBuilder(
+        future: Contacts.once(),
+        builder: (context, snapshot) {
+          return _listView(city, snapshot);
         },
-        itemCount: DUMMY_DATA.length,
       ),
     );
   }
@@ -43,6 +53,36 @@ class EmergencyContactCard extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+Widget _listView(String city, AsyncSnapshot snapshot) {
+  if (!snapshot.hasData) {
+    return Center(child: CircularProgressIndicator());
+  } else {
+    final filteredData =
+        EmergencyContactCRUD.read_specific(city, snapshot.data);
+
+    if (filteredData.length == 0) {
+      return Container(
+        margin: EdgeInsets.all(16),
+        child: Text(
+          "Sorry, no verified emergency contacts available. Please come back again!",
+          style: TextStyle(fontSize: 16),
+          textAlign: TextAlign.center,
+        ),
+      );
+    }
+
+    return ListView.builder(
+      itemBuilder: (ctx, i) {
+        return EmergencyContactCard(
+          name: filteredData[i].name,
+          number: filteredData[i].number,
+        );
+      },
+      itemCount: filteredData.length,
     );
   }
 }
