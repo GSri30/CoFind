@@ -29,14 +29,17 @@ class _SingleFilterChipState extends State<SingleFilterChip> {
   @override
   Widget build(BuildContext context) {
     return FilterChip(
-        selected: widget.resourceFilter[widget.resource],
-        label: Text(widget.resource),
-        selectedColor: Colors.lightGreen,
-        onSelected: (bool selected) {
-          setState(() {
+      selected: widget.resourceFilter[widget.resource],
+      label: Text(widget.resource),
+      selectedColor: Colors.lightGreen,
+      onSelected: (bool selected) {
+        setState(
+          () {
             widget.resourceFilter[widget.resource] =
                 !widget.resourceFilter[widget.resource];
-          });
-        });
+          },
+        );
+      },
+    );
   }
 }

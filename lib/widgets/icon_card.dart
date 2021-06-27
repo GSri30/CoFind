@@ -48,23 +48,25 @@ class iconCard extends StatelessWidget {
           height: h,
           padding: const EdgeInsets.all(8),
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Icon(
-                  icon,
-                  size: 36,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Icon(
+                icon,
+                size: 36,
+              ),
+              FittedBox(
+                child: Text(
+                  label,
+                  style: TextStyle(fontSize: 18),
                 ),
-                FittedBox(
-                  child: Text(
-                    label,
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ),
-              ]),
+              ),
+            ],
+          ),
           decoration: BoxDecoration(
-              gradient: softGradient(context),
-              borderRadius: BorderRadius.circular(15),
-              boxShadow: softShadow),
+            gradient: softGradient(context),
+            borderRadius: BorderRadius.circular(15),
+            boxShadow: softShadow,
+          ),
         ),
       ),
     );

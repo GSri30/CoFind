@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lit_firebase_auth/lit_firebase_auth.dart';
 import 'config/palette.dart';
+import 'screens/verify_data_screen.dart';
 import 'widgets/tab_bar_screen.dart';
 import './screens/add_data_screen.dart';
 import './screens/display_data_screen.dart';
+import './screens/profile_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -34,6 +36,8 @@ class MyApp extends StatelessWidget {
         routes: {
           AddDataScreen.routeName: (context) => AddDataScreen(),
           DisplayDataScreen.routeName: (context) => DisplayDataScreen(),
+          ProfileScreen.routeName: (context) => ProfileScreen(),
+          VerifyDataScreen.routeName: (context) => VerifyDataScreen(),
         },
       ),
     );

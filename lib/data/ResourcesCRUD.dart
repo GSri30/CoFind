@@ -5,6 +5,7 @@ import 'package:cofind/models/resource.dart';
 final DatabaseReference firebase = FirebaseDatabase.instance.reference();
 final DatabaseReference DBrootReference = firebase.reference();
 final DatabaseReference Resources = DBrootReference.child('Resources');
+final DatabaseReference Requests = DBrootReference.child('Reqests');
 
 class ResourceCRUD {
   static String create(Resource Resource) {
@@ -38,5 +39,79 @@ class ResourceCRUD {
     }
 
     return new List.from(result.reversed);
+  }
+
+  static void update(String resourceID, Resource updatedResource) {
+    final DatabaseReference resource = Resources.child(resourceID);
+
+    resource.set({
+      'UserID': updatedResource.UserID,
+      'ResourceType': RESOURCE_TYPE_CONVERTER[updatedResource.ResourceType],
+      'InstitutionName': updatedResource.InstitutionName,
+      'PhoneNumber': updatedResource.PhoneNumber,
+      'AlternateNumber': updatedResource.AlternateNumber,
+      'Location': updatedResource.Location,
+      'City': updatedResource.City,
+      'ServiceNote': updatedResource.ServiceNote,
+      'isVerified': updatedResource.isVerified
+    });
+
+    return;
+  }
+
+  static void delete(String resourceID) async {
+    final DatabaseReference resource = Resources.child(resourceID);
+    await resource.remove();
+  }
+
+  static void verify(String resourceID) {
+    final DatabaseReference resource = Resources.child(resourceID);
+    resource.update({'isVerified': 'true'});
+  }
+
+  static Future<bool> is_verified(String resourceID) async {
+    final DatabaseReference isVerified =
+        Resources.child(resourceID).child('isVerified');
+    bool ok = false;
+    await isVerified.once().then((is_verified) {
+      ok = (is_verified.value == "true");
+    });
+    return ok;
+  }
+
+  static void add_servicenote(String resourceID, String note) {
+    final DatabaseReference resource = Resources.child(resourceID);
+    resource.update({'ServiceNote': note});
+  }
+
+  static List<Resource> get(snapshot) {
+    List<Resource> result = [];
+
+    if (snapshot.value != null) {
+      Map<dynamic, dynamic> resources = snapshot.value;
+      resources.forEach((resourceID, resource) {
+        result.add(new Resource.dynamic(resource));
+      });
+    }
+
+    return new List.from(result.reversed);
+  }
+
+  static String request(Resource Resource) {
+    final DatabaseReference reqResource = Requests.push();
+
+    reqResource.set({
+      'UserID': Resource.UserID,
+      'ResourceType': RESOURCE_TYPE_CONVERTER[Resource.ResourceType],
+      'InstitutionName': Resource.InstitutionName,
+      'PhoneNumber': Resource.PhoneNumber,
+      'AlternateNumber': Resource.AlternateNumber,
+      'Location': Resource.Location,
+      'City': Resource.City,
+      'ServiceNote': Resource.ServiceNote,
+      'isVerified': Resource.isVerified
+    });
+
+    return reqResource.key;
   }
 }

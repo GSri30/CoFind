@@ -4,13 +4,13 @@ import 'package:cofind/data/ResourcesCRUD.dart';
 import 'package:cofind/data/constants.dart';
 import 'package:intl/intl.dart';
 
-class DisplayDataScreen extends StatefulWidget {
-  static const routeName = '/display-data';
+class VerifyDataScreen extends StatefulWidget {
+  static const routeName = '/verify-data';
   @override
-  _DisplayDataScreenState createState() => _DisplayDataScreenState();
+  _VerifyDataScreenState createState() => _VerifyDataScreenState();
 }
 
-class _DisplayDataScreenState extends State<DisplayDataScreen> {
+class _VerifyDataScreenState extends State<VerifyDataScreen> {
   @override
   void initState() {
     super.initState();
@@ -18,17 +18,17 @@ class _DisplayDataScreenState extends State<DisplayDataScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String original_route = ModalRoute.of(context).settings.arguments as String;
-    String route = toBeginningOfSentenceCase(original_route.toLowerCase());
+    // String original_route = ModalRoute.of(context).settings.arguments as String;
+    // String route = toBeginningOfSentenceCase(original_route.toLowerCase());
+
+    final String route = 'blood';
 
     return Scaffold(
         appBar: AppBar(
-          title: Text(original_route),
+          title: Text('Verify Data'),
         ),
         body: FutureBuilder(
-          future: Resources.orderByChild("ResourceType")
-              .equalTo(RESOURCE_TYPE_CONVERTER[route])
-              .once(),
+          future: Resources.once(),
           builder: (context, snapshot) {
             return _listView(snapshot, route);
           },
@@ -45,7 +45,7 @@ class _DisplayDataScreenState extends State<DisplayDataScreen> {
         return Container(
           margin: EdgeInsets.all(16),
           child: Text(
-            "Sorry, no verified '${route}' resources are currently available. Please come back again!",
+            "Sorry, no data to be verified. Please come back again!",
             style: TextStyle(fontSize: 16),
             textAlign: TextAlign.center,
           ),
@@ -63,6 +63,8 @@ class _DisplayDataScreenState extends State<DisplayDataScreen> {
               location: filtered_data[index].Location,
               serviceNote: filtered_data[index].ServiceNote,
               city: filtered_data[index].City,
+              isAdmin: true,
+              resourceType: filtered_data[index].ResourceType,
             );
           },
         ),

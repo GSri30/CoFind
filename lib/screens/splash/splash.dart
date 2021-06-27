@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
     _controller.forward();
     Timer(
-      Duration(seconds: 5),
+      Duration(seconds: 3),
       () => setState(
         () {
           _state = true;
@@ -47,6 +47,8 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
+    final bool isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     if (_state) {
       final user = context.watchSignedInUser();
       user.map(
@@ -60,25 +62,71 @@ class _SplashScreenState extends State<SplashScreen>
       );
     }
     return Scaffold(
-      // body: Stack(
-      //   children: [
-      // Image.asset('safety.png'),
-      // SizedBox.expand(
-      //   child: Image.asset('')
+        // body: Stack(
+        //   children: [
+        // Image.asset('safety.png'),
+        // SizedBox.expand(
+        //   child: Image.asset('')
 
-      //   // CustomPaint(
-      //   //   painter: SplashBackgroundPainter(
-      //   //     animation: _controller,
-      //   //   ),
-      //   // ),
-      // ),
-      // Center(
-      //   child: CircularProgressIndicator(),
-      // ),
-      // ],
-      // ),
-      body: Center(child: Image.asset('assets/splash.png')),
-    );
+        //   // CustomPaint(
+        //   //   painter: SplashBackgroundPainter(
+        //   //     animation: _controller,
+        //   //   ),
+        //   // ),
+        // ),
+        // Center(
+        //   child: CircularProgressIndicator(),
+        // ),
+        // ],
+        // ),
+        body: !isLandscape
+            ? SafeArea(
+                child: Center(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset('assets/splash.png'),
+                        Text(
+                          'CoFind',
+                          style: TextStyle(
+                            fontSize: 32,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Text(
+                          'Find resources at lighting speed!',
+                          style: TextStyle(fontSize: 16, color: Colors.grey),
+                        )
+                      ]),
+                ),
+              )
+            : SafeArea(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset('assets/splash.png'),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'CoFind',
+                          style: TextStyle(
+                            fontSize: 32,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Text(
+                          'Find resources at lighting speed!',
+                          style: TextStyle(fontSize: 16, color: Colors.grey),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ));
   }
 
   void _navigateToAuthScreen(BuildContext context) {

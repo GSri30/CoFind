@@ -1,3 +1,5 @@
+import 'package:cofind/config/palette.dart';
+import 'package:cofind/data/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import 'package:flutter/gestures.dart';
@@ -14,12 +16,86 @@ class DataCard extends StatelessWidget {
   final String alternateNumber;
   final String location;
   final String serviceNote;
+  final String city;
+  final bool isAdmin;
+  final String resourceType;
 
-  final isAdmin = false;
+  final serviceNoteController = TextEditingController();
 
-  Widget adminView(String institutionName) {
+  void openServiceNoteEditor(context) {
+    showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(8.0))),
+        backgroundColor: Colors.white,
+        context: context,
+        isScrollControlled: true,
+        builder: (context) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 8),
+                    child: Text(
+                      'Please add a Service Note',
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 8),
+                    child: TextField(
+                      maxLines: 3,
+                      style: TextStyle(fontSize: 18),
+                      autofocus: true,
+                      controller: serviceNoteController,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text('CANCEL')),
+                        TextButton(
+                            onPressed: () {
+                              // value to be given to service note is
+                              // in serviceNoteController.text
+
+                              // this code was copied from the profile_screen
+
+                              // setState(() {
+                              //   widget.title = controller.text;
+                              //   if (subtitle == "Name") {
+                              //     UserCRUD.update(context,
+                              //         new_display_name: controller.text);
+                              //   } else if (subtitle == "Email") {
+                              //     UserCRUD.update(context,
+                              //         new_email: controller.text);
+                              //   }
+                              //   context.signOut();
+                              //   Navigator.of(context)
+                              //       .pushReplacement(AuthScreen.route);
+                              //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              //       content: Text(
+                              //           "Hey CoFind'er! Please re-login to view your updated information.")));
+                              // });
+                            },
+                            child: Text('SAVE'))
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ));
+  }
+
+  Widget adminView(String institutionName, BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(8),
+      margin: EdgeInsets.fromLTRB(8, 4, 8, 8),
       width: double.infinity,
       child: Row(children: [
         Expanded(
@@ -32,21 +108,34 @@ class DataCard extends StatelessWidget {
         SizedBox(
           width: 16,
         ),
-        IconButton(
-            icon: Icon(
+        TextButton(
+            child: Icon(
               Icons.done,
               color: Colors.lightGreen,
             ),
-            onPressed: () {}),
+            onPressed: () {
+              // logic for opening the service note sheet
+              openServiceNoteEditor(context);
+
+              // adding the service note
+
+              // pushing the data and turing isVerified to true
+
+              // refreshing the page!
+            }),
         SizedBox(
-          width: 24,
+          width: 16,
         ),
-        IconButton(
-            icon: Icon(
+        TextButton(
+            child: Icon(
               Icons.close,
               color: Colors.red,
             ),
-            onPressed: () {}),
+            onPressed: () {
+              // logic for deleting this entry
+
+              // and reloading the page
+            }),
       ]),
     );
   }
@@ -69,7 +158,12 @@ class DataCard extends StatelessWidget {
     this.alternateNumber,
     this.location,
     this.serviceNote,
-  });
+    this.city,
+    this.isAdmin = false,
+    this.resourceType = null,
+  }) {
+    print(resourceType);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,13 +171,98 @@ class DataCard extends StatelessWidget {
       width: 464,
       child: Card(
         margin: EdgeInsets.fromLTRB(16, 16, 16, 0),
-        elevation: 8,
+        elevation: 3,
         child: Container(
           padding: EdgeInsets.all(8),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Resource type Chip
+
+              if (isAdmin)
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                  padding: EdgeInsets.symmetric(vertical: 3, horizontal: 12),
+                  child: Text(
+                    RESOURCE_TYPE_DECODER[resourceType],
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.white,
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                      color: Palette.lightBlue,
+                      borderRadius: BorderRadius.circular(10)),
+                ),
+
               // Institution Name and call button
-              isAdmin ? adminView(institutionName) : userView(institutionName),
+              isAdmin
+                  ? adminView(institutionName, context)
+                  : userView(institutionName),
+
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 8),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () {
+                          UrlLauncher.launch("tel://" + phoneNumber);
+                        },
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Phone Number',
+                                style: labelStyle,
+                              ),
+                              Text(
+                                phoneNumber,
+                                style: linkStyle,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () {
+                          if (alternateNumber == "" ||
+                              alternateNumber == null ||
+                              alternateNumber == 'Null') {
+                            return;
+                          } else {
+                            UrlLauncher.launch("tel://" + alternateNumber);
+                          }
+                        },
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Alternate Number',
+                                style: labelStyle,
+                              ),
+                              alternateNumber == "" ||
+                                      alternateNumber == null ||
+                                      alternateNumber == 'Null'
+                                  ? Text('not given')
+                                  : Text(
+                                      alternateNumber,
+                                      style: linkStyle,
+                                    ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
 
               Container(
                 margin: EdgeInsets.all(8),
@@ -94,20 +273,16 @@ class DataCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Phone Number',
+                            'City',
                             style: labelStyle,
                           ),
                           RichText(
                             text: TextSpan(
                               children: <TextSpan>[
                                 TextSpan(
-                                    text: phoneNumber,
-                                    style: linkStyle,
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () {
-                                        UrlLauncher.launch(
-                                            "tel://" + phoneNumber);
-                                      }),
+                                  text: city,
+                                  style: infoStyle,
+                                ),
                               ],
                             ),
                           )
@@ -119,7 +294,7 @@ class DataCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Alternate Number',
+                            'Locality',
                             style: labelStyle,
                           ),
                           alternateNumber == ''
@@ -128,37 +303,14 @@ class DataCard extends StatelessWidget {
                                   text: TextSpan(
                                     children: <TextSpan>[
                                       TextSpan(
-                                          text: alternateNumber,
-                                          style: linkStyle,
-                                          recognizer: TapGestureRecognizer()
-                                            ..onTap = () {
-                                              UrlLauncher.launch(
-                                                  "tel://" + alternateNumber);
-                                            }),
+                                        text: location,
+                                        style: infoStyle,
+                                      ),
                                     ],
                                   ),
-                                )
+                                ),
                         ],
                       ),
-                    ),
-                  ],
-                ),
-              ),
-
-              // Location
-              Container(
-                margin: EdgeInsets.all(8),
-                width: double.infinity,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Location',
-                      style: labelStyle,
-                    ),
-                    Text(
-                      location,
-                      style: infoStyle,
                     ),
                   ],
                 ),
